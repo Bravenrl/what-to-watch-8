@@ -1,11 +1,13 @@
 import FilmCardButtons from '../film-card-buttons/film-card-buttons';
+import FilmCard from '../film-card/film-card';
+import FilmDesc from '../film-desc/film-desc';
 import Footer from '../footer/footer';
 import GenresList from '../genres-list/genres-list';
 import Header from '../header/header';
 import ShowMoreButton from '../show-more-button/show-more-button';
-import SmallFilmCard from '../small-film-card/small-film-card';
+import FilmCardSmall from '../film-card-small/film-card-small';
 
-function MainScreen(): JSX.Element {
+function ScreenMain(): JSX.Element {
   return (
     <>
       <section className="film-card">
@@ -20,14 +22,10 @@ function MainScreen(): JSX.Element {
               <img src="img/the-grand-budapest-hotel-poster.jpg" alt="The Grand Budapest Hotel poster" width="218" height="327" />
             </div>
 
-            <div className="film-card__desc">
-              <h2 className="film-card__title">The Grand Budapest Hotel</h2>
-              <p className="film-card__meta">
-                <span className="film-card__genre">Drama</span>
-                <span className="film-card__year">2014</span>
-              </p>
+            <FilmDesc >
+              <FilmCard />
               <FilmCardButtons />
-            </div>
+            </FilmDesc>
           </div>
         </div>
       </section>
@@ -37,14 +35,15 @@ function MainScreen(): JSX.Element {
           <h2 className="catalog__title visually-hidden">Catalog</h2>
           <GenresList />
           <div className="catalog__films-list">
-            <SmallFilmCard />
+            <FilmCardSmall />
           </div>
           <ShowMoreButton />
         </section>
         <Footer />
       </div>
+
     </>
   );
 }
 
-export default MainScreen;
+export default ScreenMain;

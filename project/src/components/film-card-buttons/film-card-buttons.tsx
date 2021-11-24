@@ -1,4 +1,8 @@
-function FilmCardButtons(): JSX.Element {
+type FilmCardButtonsType = {
+  children?: JSX.Element,
+};
+
+function FilmCardButtons({children}: FilmCardButtonsType): JSX.Element {
   return (
     <div className="film-card__buttons">
       <button className="btn btn--play film-card__button" type="button">
@@ -13,6 +17,7 @@ function FilmCardButtons(): JSX.Element {
         </svg>
         <span>My list</span>
       </button>
+      {children}
     </div>
   );
 }
