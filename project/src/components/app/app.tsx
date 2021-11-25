@@ -1,7 +1,7 @@
-import ScreenMovie from '../screen-movie/screen-movie';
+import ScreenMain from '../screen-main/screen-main';
 
 function App(): JSX.Element {
-  return <ScreenMovie/>;
+  return  <ScreenMain />;
 }
 
 export default App;

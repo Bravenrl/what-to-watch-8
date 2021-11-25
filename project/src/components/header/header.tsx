@@ -1,17 +1,31 @@
-import { LogoLocation } from '../../const';
+import classNames from 'classnames';
+import { LogoLocation, ScreenType } from '../../const';
 import Logo from '../logo/logo';
 
-export const AUTH = true;
-function Header(): JSX.Element {
+type HeaderProps = {
+  screenType: string,
+  children?: React.ReactNode,
+}
+
+export const AUTH = false;
+function Header({ screenType, children}: HeaderProps): JSX.Element {
+
   return (
-    <header className="page-header film-card__head">
+    <header className={
+      classNames(
+        'page-header',
+        {
+          'film-card__head': (AUTH)&&(screenType === ScreenType.Main||ScreenType.Movie),
+          'user-page__head': (screenType === ScreenType.SignIn || ScreenType.MyList),
+        })
+    }
+    >
       <Logo logoLocation={LogoLocation.Header} />
-
-      {/* {(pageType = my-list) && <h1 class="page-title user-page__title">My list</h1>} */}
-
+      {children}
       {
         (AUTH)
           ?
+          (screenType !== ScreenType.SignIn) &&
           <ul className="user-block">
             <li className="user-block__item">
               <div className="user-block__avatar">
@@ -23,6 +37,7 @@ function Header(): JSX.Element {
             </li>
           </ul>
           :
+          (screenType !== ScreenType.SignIn) &&
           <div className="user-block">
             <a href="#todo" className="user-block__link">Sign in</a>
           </div>

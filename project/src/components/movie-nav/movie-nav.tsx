@@ -1,17 +1,42 @@
-const MOVIE_NAV = ['Overview', 'Details', 'Reviews'];
+import classNames from 'classnames';
+import { ScreenType } from '../../const';
 
-function MovieNav(): JSX.Element {
+const MOVIE_NAV: string[] = ['Overview', 'Details', 'Reviews'];
+
+type MovieNavPrors = {
+  locationScreen: string
+}
+
+function MovieNav({ locationScreen }: MovieNavPrors): JSX.Element {
+  const isMovieScreen: boolean = (locationScreen === ScreenType.Movie);
+  const itemAactive = 'Overview';
   return (
-    <nav className="film-nav film-card__nav">
-      <ul className="film-nav__list">
-        {MOVIE_NAV.map((item) =>
-          (
-            <li key={item} className="film-nav__item film-nav__item--active">
+    <nav className={isMovieScreen ? 'film-nav film-card__nav' : 'breadcrumbs'}>
+      <ul className={isMovieScreen ? 'film-nav__list' : 'breadcrumbs__list'}>
+
+        {!isMovieScreen &&
+          <>
+            <li className="breadcrumbs__item">
+              <a href="#todo" className="breadcrumbs__link">The Grand Budapest Hotel</a>
+            </li>
+            <li className="breadcrumbs__item">
+              <span className="breadcrumbs__link">Add review</span>
+            </li>
+          </>}
+
+        {isMovieScreen &&
+          MOVIE_NAV.map((item) => (
+            <li key={item} className={
+              classNames(
+                'film-nav__item',
+                { 'film-nav__item--active': item === itemAactive })
+            }
+            >
               <a href="#todo" className="film-nav__link">{item}</a>
             </li>
           ))}
       </ul>
-    </nav>
+    </nav >
   );
 }
 

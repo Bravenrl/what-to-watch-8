@@ -10,7 +10,7 @@ function FilmCardSmall(): JSX.Element {
       </div>
       <h3 className="small-film-card__title">
         <a className="small-film-card__link"
-          href="/"
+          href="film-page.html"
         >
           Fantastic Beasts: The Crimes of Grindelwald
         </a>
