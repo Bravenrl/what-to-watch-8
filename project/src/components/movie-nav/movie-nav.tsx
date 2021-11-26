@@ -1,4 +1,5 @@
 import classNames from 'classnames';
+import { Link } from 'react-router-dom';
 import { ScreenType } from '../../const';
 
 const MOVIE_NAV: string[] = ['Overview', 'Details', 'Reviews'];
@@ -17,7 +18,7 @@ function MovieNav({ locationScreen }: MovieNavPrors): JSX.Element {
         {!isMovieScreen &&
           <>
             <li className="breadcrumbs__item">
-              <a href="#todo" className="breadcrumbs__link">The Grand Budapest Hotel</a>
+              <Link to='/films/1' className="breadcrumbs__link">The Grand Budapest Hotel</Link>
             </li>
             <li className="breadcrumbs__item">
               <span className="breadcrumbs__link">Add review</span>

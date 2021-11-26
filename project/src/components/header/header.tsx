@@ -1,5 +1,6 @@
 import classNames from 'classnames';
-import { LogoLocation, ScreenType } from '../../const';
+import { Link } from 'react-router-dom';
+import { AppRoute, LogoLocation, ScreenType } from '../../const';
 import Logo from '../logo/logo';
 
 type HeaderProps = {
@@ -39,7 +40,7 @@ function Header({ screenType, children}: HeaderProps): JSX.Element {
           :
           (screenType !== ScreenType.SignIn) &&
           <div className="user-block">
-            <a href="#todo" className="user-block__link">Sign in</a>
+            <Link to={AppRoute.SignIn} className="user-block__link">Sign in</Link>
           </div>
       }
 

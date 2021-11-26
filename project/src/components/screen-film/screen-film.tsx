@@ -11,7 +11,7 @@ import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
 
-function ScreenMovie(): JSX.Element {
+function ScreenFilm(): JSX.Element {
   return (
     <>
       <section className="film-card film-card--full">
@@ -47,4 +47,4 @@ function ScreenMovie(): JSX.Element {
   );
 }
 
-export default ScreenMovie;
+export default ScreenFilm;

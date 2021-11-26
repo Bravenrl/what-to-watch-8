@@ -24,4 +24,13 @@ export const enum PosterParams {
   SizeSmall = 'small',
 }
 
+export const enum AppRoute {
+  Root = '/',
+  Film = '/films/:id',
+  SignIn = '/login',
+  MyList = '/list',
+  AddReview = '/films/:id/review',
+  Player = '/player/:id',
+  NotFound = '*'
+}
 

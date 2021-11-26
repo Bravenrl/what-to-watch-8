@@ -1,5 +1,8 @@
 import classNames from 'classnames';
-import { LogoLocation } from '../../const';
+import { Link } from 'react-router-dom';
+
+
+import { AppRoute, LogoLocation } from '../../const';
 
 type LogoType = {
   logoLocation: LogoLocation;
@@ -8,19 +11,19 @@ type LogoType = {
 function Logo({ logoLocation }: LogoType): JSX.Element {
   return (
     <div className="logo">
-      <a
+      <Link
         className={
           classNames(
             'logo__link',
-            {'logo__link--light': (logoLocation === LogoLocation.Footer)},
+            { 'logo__link--light': (logoLocation === LogoLocation.Footer) },
           )
         }
-        href="/"
+        to={AppRoute.Root}
       >
         <span className="logo__letter logo__letter--1">W</span>
         <span className="logo__letter logo__letter--2">T</span>
         <span className="logo__letter logo__letter--3">W</span>
-      </a>
+      </Link>
     </div>
   );
 }
