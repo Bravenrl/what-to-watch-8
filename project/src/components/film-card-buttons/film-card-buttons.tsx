@@ -1,12 +1,11 @@
-import { ScreenType } from '../../const';
+import { generatePath, Link, useMatch } from 'react-router-dom';
+import { AppRoute } from '../../const';
 
-type FilmCardButtonsType = {
-  locationPage?: string,
-};
+function FilmCardButtons(): JSX.Element {
 
-function FilmCardButtons({ locationPage }: FilmCardButtonsType): JSX.Element {
-  const isMoviePage = (locationPage === ScreenType.Movie);
   const isInList = false;
+  const isMoviePage = useMatch(AppRoute.Film);
+  const linkPath = (isMoviePage) ? generatePath(AppRoute.AddReview, isMoviePage?.params) : AppRoute.Root;
   return (
     <div className="film-card__buttons">
       <button className="btn btn--play film-card__button" type="button">
@@ -21,7 +20,7 @@ function FilmCardButtons({ locationPage }: FilmCardButtonsType): JSX.Element {
         </svg>
         <span>My list</span>
       </button>
-      {isMoviePage && <a href="add-review.html" className="btn film-card__button">Add review</a>}
+      {isMoviePage && <Link to={linkPath} className="btn film-card__button">Add review</Link>}
     </div>
   );
 }

@@ -34,3 +34,9 @@ export const enum AppRoute {
   NotFound = '*'
 }
 
+export enum MovieInfo {
+  Overview = 'Overview',
+  Details = 'Details',
+  Reviews = 'Reviews',
+}
+

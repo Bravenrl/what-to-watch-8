@@ -1,24 +1,25 @@
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
-import { ScreenType } from '../../const';
-
-const MOVIE_NAV: string[] = ['Overview', 'Details', 'Reviews'];
+import { Link, useMatch, useSearchParams } from 'react-router-dom';
+import { AppRoute, MovieInfo} from '../../const';
 
 type MovieNavPrors = {
   locationScreen: string
 }
 
 function MovieNav({ locationScreen }: MovieNavPrors): JSX.Element {
-  const isMovieScreen: boolean = (locationScreen === ScreenType.Movie);
-  const itemAactive = 'Overview';
+  const [searchParams, setSearchParams] = useSearchParams();
+  const filmInfo = searchParams.get('info') || '';
+  const isMovieScreen = useMatch(AppRoute.Film);
+  const isAddReviewScreen = useMatch(AppRoute.AddReview);
+
   return (
     <nav className={isMovieScreen ? 'film-nav film-card__nav' : 'breadcrumbs'}>
       <ul className={isMovieScreen ? 'film-nav__list' : 'breadcrumbs__list'}>
 
-        {!isMovieScreen &&
+        {isAddReviewScreen &&
           <>
             <li className="breadcrumbs__item">
-              <Link to='/films/1' className="breadcrumbs__link">The Grand Budapest Hotel</Link>
+              <Link to={isAddReviewScreen.pathname} className="breadcrumbs__link">The Grand Budapest Hotel</Link>
             </li>
             <li className="breadcrumbs__item">
               <span className="breadcrumbs__link">Add review</span>
@@ -26,14 +27,21 @@ function MovieNav({ locationScreen }: MovieNavPrors): JSX.Element {
           </>}
 
         {isMovieScreen &&
-          MOVIE_NAV.map((item) => (
+          Object.values(MovieInfo).map((item) => (
             <li key={item} className={
               classNames(
                 'film-nav__item',
-                { 'film-nav__item--active': item === itemAactive })
+                { 'film-nav__item--active': item.toLowerCase() === filmInfo })
             }
             >
-              <a href="#todo" className="film-nav__link">{item}</a>
+              <a href='#todo' className="film-nav__link"
+                onClick={(evt) => {
+                  evt.preventDefault();
+                  setSearchParams({ info: item.toLowerCase() });
+                }}
+              >
+                {item}
+              </a>
             </li>
           ))}
       </ul>
