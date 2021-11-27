@@ -25,7 +25,7 @@ function ScreenMain(): JSX.Element {
       </section>
 
       <div className="page-content">
-        <FilmCatalog locationPage={ScreenType.Main} />
+        <FilmCatalog />
         <Footer />
       </div>
 

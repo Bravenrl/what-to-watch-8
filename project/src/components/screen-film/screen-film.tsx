@@ -35,7 +35,7 @@ function ScreenFilm(): JSX.Element {
         </div>
       </section>
       <div className="page-content">
-        <FilmCatalog locationPage={ScreenType.Movie} />
+        <FilmCatalog />
         <Footer />
       </div>
     </>

@@ -4,8 +4,8 @@ import { AppRoute } from '../../const';
 function FilmCardButtons(): JSX.Element {
 
   const isInList = false;
-  const isMoviePage = useMatch(AppRoute.Film);
-  const linkPath = (isMoviePage) ? generatePath(AppRoute.AddReview, isMoviePage?.params) : AppRoute.Root;
+  const isMovieScreen = useMatch(`${AppRoute.Film}/*`);
+  const linkPath = (isMovieScreen) ? generatePath(AppRoute.AddReview, isMovieScreen?.params) : AppRoute.Root;
   return (
     <div className="film-card__buttons">
       <button className="btn btn--play film-card__button" type="button">
@@ -20,7 +20,7 @@ function FilmCardButtons(): JSX.Element {
         </svg>
         <span>My list</span>
       </button>
-      {isMoviePage && <Link to={linkPath} className="btn film-card__button">Add review</Link>}
+      {isMovieScreen && <Link to={linkPath} className="btn film-card__button">Add review</Link>}
     </div>
   );
 }

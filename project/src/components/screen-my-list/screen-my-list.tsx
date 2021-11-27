@@ -9,7 +9,7 @@ function ScreenMyList(): JSX.Element {
       <Header screenType={ScreenType.MyList}>
         <h1 className="page-title user-page__title"> {HeaderTitle.MyList} </h1>
       </Header>
-      <FilmCatalog locationPage={ScreenType.MyList} />
+      <FilmCatalog />
       <Footer />
     </div>);
 }
