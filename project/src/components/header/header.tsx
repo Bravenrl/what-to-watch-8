@@ -1,6 +1,6 @@
 import classNames from 'classnames';
 import { Link } from 'react-router-dom';
-import { AppRoute, LogoLocation, ScreenType } from '../../const';
+import { AppRoute, LogoPosition, ScreenType } from '../../const';
 import Logo from '../logo/logo';
 
 type HeaderProps = {
@@ -21,7 +21,7 @@ function Header({ screenType, children}: HeaderProps): JSX.Element {
         })
     }
     >
-      <Logo logoLocation={LogoLocation.Header} />
+      <Logo logoPosition={LogoPosition.Header} />
       {children}
       {
         (AUTH)

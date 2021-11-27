@@ -2,20 +2,20 @@ import classNames from 'classnames';
 import { Link } from 'react-router-dom';
 
 
-import { AppRoute, LogoLocation } from '../../const';
+import { AppRoute, LogoPosition } from '../../const';
 
 type LogoType = {
-  logoLocation: LogoLocation;
+  logoPosition: LogoPosition;
 }
 
-function Logo({ logoLocation }: LogoType): JSX.Element {
+function Logo({ logoPosition} : LogoType): JSX.Element {
   return (
     <div className="logo">
       <Link
         className={
           classNames(
             'logo__link',
-            { 'logo__link--light': (logoLocation === LogoLocation.Footer) },
+            { 'logo__link--light': (logoPosition === LogoPosition.Footer) },
           )
         }
         to={AppRoute.Root}

@@ -1,5 +1,5 @@
 import Header from '../header/header';
-import MovieNav from '../movie-nav/movie-nav';
+import Navigate from '../navigate/navigate';
 import { PosterParams, ScreenType } from '../../const';
 import Poster from '../poster/poster';
 
@@ -9,7 +9,7 @@ function ScreenAddReview(): JSX.Element {
       <div className="film-card__header">
         <Poster type= {PosterParams.TypeBackground}/>
         <Header screenType={ScreenType.AddReview} >
-          <MovieNav locationScreen={ScreenType.AddReview} />
+          <Navigate />
         </Header>
         <Poster type={PosterParams.TypePoster} size={PosterParams.SizeSmall} />
       </div>

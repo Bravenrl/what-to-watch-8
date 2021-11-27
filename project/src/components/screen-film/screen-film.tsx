@@ -3,11 +3,11 @@ import FilmCard from '../film-card/film-card';
 import FilmDesc from '../film-desc/film-desc';
 import Footer from '../footer/footer';
 import Header from '../header/header';
-import MovieNav from '../movie-nav/movie-nav';
+import Navigate from '../navigate/navigate';
 import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
-import FilmInfo from '../film-info/film-info';
+import { Outlet } from 'react-router-dom';
 
 function ScreenFilm(): JSX.Element {
   return (
@@ -28,8 +28,8 @@ function ScreenFilm(): JSX.Element {
           <div className="film-card__info">
             <Poster type={PosterParams.TypePoster} size={PosterParams.SizeBig} />
             <FilmDesc>
-              <MovieNav locationScreen={ScreenType.Movie} />
-              <FilmInfo />
+              <Navigate />
+              <Outlet />
             </FilmDesc>
           </div>
         </div>

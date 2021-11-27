@@ -1,4 +1,4 @@
-export const enum LogoLocation {
+export const enum LogoPosition {
   Header = 'header',
   Footer = 'footer',
 }
@@ -31,10 +31,12 @@ export const enum AppRoute {
   MyList = '/list',
   AddReview = '/films/:id/review',
   Player = '/player/:id',
-  NotFound = '*'
+  NotFound = '*',
+  MovieDetails = 'details',
+  MovieReviews = 'reviews',
 }
 
-export enum MovieInfo {
+export enum FilmInfo {
   Overview = 'Overview',
   Details = 'Details',
   Reviews = 'Reviews',
