@@ -6,19 +6,41 @@ import Header from '../header/header';
 import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
+import { fakeFilm } from '../../mock/fake-film';
 
 function ScreenMain(): JSX.Element {
+
+  const {
+    // id,
+    name,
+    // description,
+    // rating,
+    // director,
+    // starring,
+    genre,
+    released,
+    posterImage,
+    // previewImage,
+    backgroundImage,
+    // backgroundColor,
+    // videoLink,
+    // previewVideoLink,
+    // scoresCount,
+    isFavorite,
+    // runTime,
+  } = fakeFilm;
+
   return (
     <>
       <section className="film-card">
-        <Poster type={PosterParams.TypeBackground} />
+        <Poster type={PosterParams.TypeBackground} image={backgroundImage} name = {name}/>
         <Header screenType={ScreenType.Main} />
         <div className="film-card__wrap">
           <div className="film-card__info">
-            <Poster type={PosterParams.TypePoster} />
+            <Poster type={PosterParams.TypePoster} image={posterImage} name = {name}/>
             <FilmDesc >
-              <FilmCard />
-              <FilmCardButtons />
+              <FilmCard name={name} genre={genre} released = {released}/>
+              <FilmCardButtons isFavorite = {isFavorite}/>
             </FilmDesc>
           </div>
         </div>

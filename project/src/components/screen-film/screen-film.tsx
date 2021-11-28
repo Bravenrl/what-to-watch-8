@@ -8,25 +8,47 @@ import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
 import { Outlet } from 'react-router-dom';
+import { fakeFilm } from '../../mock/fake-film';
 
 function ScreenFilm(): JSX.Element {
+
+  const {
+    // id,
+    name,
+    // description,
+    // rating,
+    // director,
+    // starring,
+    genre,
+    released,
+    posterImage,
+    // previewImage,
+    backgroundImage,
+    backgroundColor,
+    // videoLink,
+    // previewVideoLink,
+    // scoresCount,
+    isFavorite,
+    // runTime,
+  } = fakeFilm;
+
   return (
     <>
-      <section className="film-card film-card--full">
+      <section className="film-card film-card--full" style={{ backgroundColor }}>
         <div className="film-card__hero">
-          <Poster type={PosterParams.TypeBackground} />
+          <Poster type={PosterParams.TypeBackground} image={backgroundImage} name={name} />
           <Header screenType={ScreenType.Movie} />
           <div className="film-card__wrap">
             <FilmDesc >
-              <FilmCard />
-              <FilmCardButtons />
+              <FilmCard name = {name} genre = {genre} released={released} />
+              <FilmCardButtons isFavorite = {isFavorite} />
             </FilmDesc>
           </div>
         </div>
 
         <div className="film-card__wrap film-card__translate-top">
           <div className="film-card__info">
-            <Poster type={PosterParams.TypePoster} size={PosterParams.SizeBig} />
+            <Poster type={PosterParams.TypePoster} size={PosterParams.SizeBig} image={posterImage} name={name} />
             <FilmDesc>
               <Navigate />
               <Outlet />

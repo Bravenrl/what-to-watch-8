@@ -2,16 +2,20 @@ import Header from '../header/header';
 import Navigate from '../navigate/navigate';
 import { PosterParams, ScreenType } from '../../const';
 import Poster from '../poster/poster';
+import { fakeFilm } from '../../mock/fake-film';
 
 function ScreenAddReview(): JSX.Element {
+
+  const { name, posterImage, backgroundImage } = fakeFilm;
+
   return (
     <section className="film-card film-card--full">
       <div className="film-card__header">
-        <Poster type= {PosterParams.TypeBackground}/>
+        <Poster type={PosterParams.TypeBackground} image={backgroundImage} name={name} />
         <Header screenType={ScreenType.AddReview} >
           <Navigate />
         </Header>
-        <Poster type={PosterParams.TypePoster} size={PosterParams.SizeSmall} />
+        <Poster type={PosterParams.TypePoster} size={PosterParams.SizeSmall} image={posterImage} name={name} />
       </div>
 
       <div className="add-review">
