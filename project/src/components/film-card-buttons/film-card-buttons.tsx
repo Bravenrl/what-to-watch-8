@@ -8,7 +8,7 @@ type FilmCardButtonsProps = {
 }
 
 function FilmCardButtons({ isFavorite }: FilmCardButtonsProps): JSX.Element {
-  const isMovieScreen = useMatch(`${AppRoute.Film}/*`);
+  const isMovieScreen = useMatch(AppRoute.Film);
   const linkMoviePath = (isMovieScreen) ? generatePath(AppRoute.AddReview, isMovieScreen?.params) : AppRoute.Root;
   return (
     <div className="film-card__buttons" >

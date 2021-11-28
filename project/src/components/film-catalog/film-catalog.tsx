@@ -7,7 +7,7 @@ import ShowMoreButton from '../show-more-button/show-more-button';
 
 function FilmCatalog(): JSX.Element {
   const isMainScreen = useMatch(AppRoute.Root);
-  const isMovieScreen = useMatch(`${AppRoute.Film}/*`);
+  const isMovieScreen = useMatch(AppRoute.Film);
   return (
     <section className={classNames('catalog', { 'catalog--like-this': isMovieScreen })}>
       <h2 className={classNames('catalog__title', { 'visually-hidden': !isMovieScreen })}>

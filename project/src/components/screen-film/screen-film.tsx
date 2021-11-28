@@ -7,8 +7,8 @@ import Navigate from '../navigate/navigate';
 import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
-import { Outlet } from 'react-router-dom';
 import { fakeFilm } from '../../mock/fake-film';
+import MovieInfo from '../movie-info/movie-info';
 
 function ScreenFilm(): JSX.Element {
 
@@ -51,7 +51,7 @@ function ScreenFilm(): JSX.Element {
             <Poster type={PosterParams.TypePoster} size={PosterParams.SizeBig} image={posterImage} name={name} />
             <FilmDesc>
               <Navigate />
-              <Outlet />
+              <MovieInfo />
             </FilmDesc>
           </div>
         </div>

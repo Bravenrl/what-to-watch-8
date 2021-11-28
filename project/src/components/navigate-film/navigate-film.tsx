@@ -1,29 +1,33 @@
 import classNames from 'classnames';
-import { useState } from 'react';
-import { generatePath, Link, useParams } from 'react-router-dom';
-import { AppRoute, FilmInfo } from '../../const';
+import { useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
+import { FilmInfo } from '../../const';
 
 function NavigateFilm(): JSX.Element {
-  const [state, setState] = useState(FilmInfo.Overview.toString());
-  const { id } = useParams();
-  const linkPath = generatePath(AppRoute.Film, { id });
+  const [searchParams, setSearchParams] = useSearchParams();
+
+  useEffect(() => {
+    setSearchParams({ 'info': FilmInfo.Overview.toLowerCase() });
+  }, [setSearchParams]);
+
+  const movieInfo = searchParams.get('info') || '';
   return (
     <>
       {Object.keys(FilmInfo).map((item) => (
         <li key={item} className={
           classNames(
             'film-nav__item',
-            { 'film-nav__item--active': item === state })
+            { 'film-nav__item--active': item.toLowerCase() === movieInfo })
         }
         >
-          <Link
-            to={item === FilmInfo.Overview ? linkPath : item.toLowerCase()}
-            className="film-nav__link"
-            onClick={() => setState(item)}
-            replace
+          <a href='#todo' className="film-nav__link"
+            onClick={(evt) => {
+              evt.preventDefault();
+              setSearchParams({ 'info': item.toLowerCase() });
+            }}
           >
             {item}
-          </Link>
+          </a>
         </li>
       ))}
     </>
