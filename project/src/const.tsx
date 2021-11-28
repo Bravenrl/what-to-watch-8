@@ -1,3 +1,5 @@
+export const AUTH_STATUS = true;
+
 export const enum LogoPosition {
   Header = 'header',
   Footer = 'footer',

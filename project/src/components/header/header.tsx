@@ -1,6 +1,6 @@
 import classNames from 'classnames';
-import { Link } from 'react-router-dom';
-import { AppRoute, LogoPosition, ScreenType } from '../../const';
+import { Link, useNavigate } from 'react-router-dom';
+import { AppRoute, AUTH_STATUS, LogoPosition, ScreenType } from '../../const';
 import Logo from '../logo/logo';
 
 type HeaderProps = {
@@ -8,15 +8,14 @@ type HeaderProps = {
   children?: React.ReactNode,
 }
 
-export const AUTH = false;
-function Header({ screenType, children}: HeaderProps): JSX.Element {
-
+function Header({ screenType, children }: HeaderProps): JSX.Element {
+  const navigate = useNavigate();
   return (
     <header className={
       classNames(
         'page-header',
         {
-          'film-card__head': (AUTH)&&(screenType === ScreenType.Main||ScreenType.Movie),
+          'film-card__head': (AUTH_STATUS) && (screenType === ScreenType.Main || ScreenType.Movie),
           'user-page__head': (screenType === ScreenType.SignIn || ScreenType.MyList),
         })
     }
@@ -24,11 +23,11 @@ function Header({ screenType, children}: HeaderProps): JSX.Element {
       <Logo logoPosition={LogoPosition.Header} />
       {children}
       {
-        (AUTH)
+        (AUTH_STATUS)
           ?
           (screenType !== ScreenType.SignIn) &&
           <ul className="user-block">
-            <li className="user-block__item">
+            <li className="user-block__item" onClick={()=>{navigate(AppRoute.MyList);}}>
               <div className="user-block__avatar">
                 <img src="img/avatar.jpg" alt="User avatar" width="63" height="63" />
               </div>
@@ -39,12 +38,12 @@ function Header({ screenType, children}: HeaderProps): JSX.Element {
           </ul>
           :
           (screenType !== ScreenType.SignIn) &&
-          <div className="user-block">
-            <Link to={AppRoute.SignIn} className="user-block__link">Sign in</Link>
-          </div>
+    <div className="user-block">
+      <Link to={AppRoute.SignIn} className="user-block__link">Sign in</Link>
+    </div>
       }
 
-    </header>
+    </header >
   );
 }
 

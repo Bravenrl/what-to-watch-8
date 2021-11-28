@@ -15,7 +15,8 @@ function GenresList(): JSX.Element {
             evt.preventDefault();
             setSearchParams('');
           }}
-        > {ALL_GENRES}
+        >
+          {ALL_GENRES}
         </a>
       </li>
       {

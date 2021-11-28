@@ -20,6 +20,7 @@ function NavigateFilm(): JSX.Element {
             to={item === FilmInfo.Overview ? linkPath : item.toLowerCase()}
             className="film-nav__link"
             onClick={() => setState(item)}
+            replace
           >
             {item}
           </Link>

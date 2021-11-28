@@ -1,5 +1,7 @@
 import { Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import AuthorizedRoute from '../../hoc/authorized-route/authorized-route';
+import RequireAuthRoute from '../../hoc/require-auth-route/require-auth-route';
 import MovieDetails from '../movie-details/movie-details';
 import MovieOverview from '../movie-overview/movie-overview';
 import MovieReviews from '../movie-reviews/movie-reviews';
@@ -20,8 +22,18 @@ function App(): JSX.Element {
         <Route path={AppRoute.MovieDetails} element={<MovieDetails />} />
         <Route path={AppRoute.MovieReviews} element={<MovieReviews />} />
       </Route>
-      <Route path={AppRoute.MyList} element={<ScreenMyList />} />
-      <Route path={AppRoute.SignIn} element={<ScreenSignIn />} />
+      <Route path={AppRoute.MyList} element={
+        <RequireAuthRoute >
+          <ScreenMyList />
+        </RequireAuthRoute >
+      }
+      />
+      <Route path={AppRoute.SignIn} element={
+        <AuthorizedRoute >
+          <ScreenSignIn />
+        </AuthorizedRoute>
+      }
+      />
       <Route path={AppRoute.Player} element={<ScreenPlayer />} />
       <Route path={AppRoute.AddReview} element={<ScreenAddReview />} />
       <Route path={AppRoute.NotFound} element={<ScreenNotFound />} />
