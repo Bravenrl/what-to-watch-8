@@ -13,23 +13,13 @@ import MovieInfo from '../movie-info/movie-info';
 function ScreenFilm(): JSX.Element {
 
   const {
-    // id,
     name,
-    // description,
-    // rating,
-    // director,
-    // starring,
     genre,
     released,
     posterImage,
-    // previewImage,
     backgroundImage,
     backgroundColor,
-    // videoLink,
-    // previewVideoLink,
-    // scoresCount,
     isFavorite,
-    // runTime,
   } = fakeFilm;
 
   return (
@@ -40,8 +30,8 @@ function ScreenFilm(): JSX.Element {
           <Header screenType={ScreenType.Movie} />
           <div className="film-card__wrap">
             <FilmDesc >
-              <FilmCard name = {name} genre = {genre} released={released} />
-              <FilmCardButtons isFavorite = {isFavorite} />
+              <FilmCard name={name} genre={genre} released={released} />
+              <FilmCardButtons isFavorite={isFavorite} />
             </FilmDesc>
           </div>
         </div>
@@ -51,7 +41,7 @@ function ScreenFilm(): JSX.Element {
             <Poster type={PosterParams.TypePoster} size={PosterParams.SizeBig} image={posterImage} name={name} />
             <FilmDesc>
               <Navigate />
-              <MovieInfo />
+              <MovieInfo film={fakeFilm} />
             </FilmDesc>
           </div>
         </div>

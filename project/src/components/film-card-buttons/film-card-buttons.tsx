@@ -9,7 +9,7 @@ type FilmCardButtonsProps = {
 
 function FilmCardButtons({ isFavorite }: FilmCardButtonsProps): JSX.Element {
   const isMovieScreen = useMatch(AppRoute.Film);
-  const linkMoviePath = (isMovieScreen) ? generatePath(AppRoute.AddReview, isMovieScreen?.params) : '';
+  const linkMoviePath = (isMovieScreen) ? generatePath(AppRoute.AddReview, isMovieScreen.params) : '';
   return (
     <div className="film-card__buttons" >
       <NavLink to={AppRoute.Player} className="btn btn--play film-card__button" type="button" >

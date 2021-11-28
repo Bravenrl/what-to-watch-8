@@ -56,3 +56,26 @@ export const GENRES: string[] = [
   'Romance',
   'Sci-Fi',
   'Thrillers'];
+
+export const RatingLevel = {
+  Bad: {
+    level: 'Bad',
+  },
+  Normal: {
+    value: 3,
+    level: 'Normal',
+  },
+  Good: {
+    value: 5,
+    level: 'Good',
+  },
+  VeryGood: {
+    value: 8,
+    level: 'Very good',
+  },
+  Awesome: {
+    value: 10,
+    level: 'Awesome',
+  },
+};
+
