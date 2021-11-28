@@ -4,11 +4,8 @@ import NavigateFilm from '../navigate-film/navigate-film';
 
 function Navigate(): JSX.Element {
   const isAddReviewScreen = useMatch(AppRoute.AddReview);
-  // eslint-disable-next-line no-console
-  console.log(isAddReviewScreen);
   const currentFilmLink = (isAddReviewScreen) ? generatePath(AppRoute.Film, isAddReviewScreen?.params) : AppRoute.Root;
 
-  //const linkMoviePath = (isMovieScreen) ? generatePath(AppRoute.AddReview, isAddReviewScreen?.params) : AppRoute.Root;
   return (
     <nav className={isAddReviewScreen ? 'breadcrumbs' : 'film-nav film-card__nav'}>
       <ul className={isAddReviewScreen ? 'breadcrumbs__list' : 'film-nav__list'}>

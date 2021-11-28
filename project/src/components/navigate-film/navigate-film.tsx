@@ -1,16 +1,10 @@
 import classNames from 'classnames';
-import { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { FilmInfo } from '../../const';
 
 function NavigateFilm(): JSX.Element {
   const [searchParams, setSearchParams] = useSearchParams();
-
-  useEffect(() => {
-    setSearchParams({ 'info': FilmInfo.Overview.toLowerCase() });
-  }, [setSearchParams]);
-
-  const movieInfo = searchParams.get('info') || '';
+  const movieInfo = searchParams.get('info');
   return (
     <>
       {Object.keys(FilmInfo).map((item) => (
