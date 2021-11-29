@@ -21,6 +21,7 @@ export const showRatingLevel = (rating: number): string => {
 };
 
 export const formatRunTime = (runTime: number): string => dayjs.duration(runTime, 'm').format('H[h] mm[mm]');
+export const formatRunTimeForPlayer = (runTime: number): string => dayjs.duration(runTime, 'm').format('H:mm:ss');
 
 export const getTwoArrSortByRating = (comments: CommentGet[]): CommentGet[][] =>
   [...comments].sort((a, b) => (b.rating - a.rating))

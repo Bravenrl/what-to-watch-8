@@ -79,3 +79,4 @@ export const RatingLevel = {
   },
 };
 
+export const STARS = new Array(10).fill(null).map((el, index, array) => el = array.length - index);

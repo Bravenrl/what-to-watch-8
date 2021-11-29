@@ -4,7 +4,7 @@ import { AuthInfo, CommentGet, Film } from '../types/data';
 import { GENRES } from '../const';
 const nanoid = customAlphabet('1234567890', 50);
 
-export const fakeFilm = (): Film => ({
+export const CreateFakeFilm = (): Film => ({
   id: parseInt(nanoid(), 10),
   name: name.firstName(),
   description: lorem.sentences(datatype.number(3)),
@@ -24,7 +24,7 @@ export const fakeFilm = (): Film => ({
   runTime: datatype.number(300),
 });
 
-export const fakeComment = (): CommentGet => ({
+export const CreateFakeComment = (): CommentGet => ({
   id: parseInt(nanoid(), 10),
   user: {
     id: parseInt(nanoid(), 10),
@@ -43,4 +43,4 @@ export const fakeAuthor = (): AuthInfo => ({
   token: internet.password(),
 });
 
-export const fakeComments = new Array(datatype.number(9)).fill(null).map(fakeComment);
+export const fakeComments = new Array(datatype.number(9)).fill(null).map(CreateFakeComment);

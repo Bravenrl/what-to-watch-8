@@ -8,6 +8,7 @@ type MovieOverviewProps = {
 }
 
 function MovieOverview({description, director, rating, scoresCount, starring}: MovieOverviewProps): JSX.Element {
+  let counter = 0;
   return (
     <>
       <div className="film-rating">
@@ -19,7 +20,7 @@ function MovieOverview({description, director, rating, scoresCount, starring}: M
       </div>
 
       <div className="film-card__text">
-        {description.split('.').map((sentence) => <p key = {parseInt(sentence, 10)}>{sentence}</p>)}
+        {description.split('.').map((sentence) => <p key = {`${counter++}sentence`}>{sentence}</p>)}
 
         <p className="film-card__director"><strong>Director: {director}</strong></p>
 

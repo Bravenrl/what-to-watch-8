@@ -6,12 +6,12 @@ import Header from '../header/header';
 import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
-import { fakeFilm } from '../../mock/fake-data';
+import { CreateFakeFilm } from '../../mock/fake-data';
 
 function ScreenMain(): JSX.Element {
-  const film = fakeFilm();
+  const film = CreateFakeFilm();
   const {
-    // id,
+    id,
     name,
     // description,
     // rating,
@@ -40,7 +40,7 @@ function ScreenMain(): JSX.Element {
             <Poster type={PosterParams.TypePoster} image={posterImage} name={name} />
             <FilmDesc >
               <FilmCard name={name} genre={genre} released={released} />
-              <FilmCardButtons isFavorite={isFavorite} />
+              <FilmCardButtons isFavorite={isFavorite} id = {id}/>
             </FilmDesc>
           </div>
         </div>

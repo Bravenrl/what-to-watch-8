@@ -1,3 +1,4 @@
+import React from 'react';
 import { formatRunTime } from '../../utils';
 
 type MovieDetailsProps = {
@@ -9,6 +10,7 @@ type MovieDetailsProps = {
 }
 
 function MovieDetails({genre, starring, director, runTime, released}:MovieDetailsProps): JSX.Element {
+  let counter = 0;
   return (
     <div className="film-card__text film-card__row">
       <div className="film-card__text-col">
@@ -19,7 +21,7 @@ function MovieDetails({genre, starring, director, runTime, released}:MovieDetail
         <p className="film-card__details-item">
           <strong className="film-card__details-name">Starring</strong>
           <span className="film-card__details-value">
-            {starring.map((star) => <>{star} <br /></>)}
+            {starring.map((star) => <React.Fragment key = {star+counter++}>{star} <br /></React.Fragment>)}
           </span>
         </p>
       </div>
