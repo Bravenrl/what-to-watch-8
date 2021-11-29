@@ -7,11 +7,11 @@ import Navigate from '../navigate/navigate';
 import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
-import { fakeFilm } from '../../mock/fake-film';
+import { fakeComments, fakeFilm } from '../../mock/fake-data';
 import MovieInfo from '../movie-info/movie-info';
 
 function ScreenFilm(): JSX.Element {
-
+  const film = fakeFilm();
   const {
     name,
     genre,
@@ -20,7 +20,7 @@ function ScreenFilm(): JSX.Element {
     backgroundImage,
     backgroundColor,
     isFavorite,
-  } = fakeFilm;
+  } = film;
 
   return (
     <>
@@ -41,7 +41,7 @@ function ScreenFilm(): JSX.Element {
             <Poster type={PosterParams.TypePoster} size={PosterParams.SizeBig} image={posterImage} name={name} />
             <FilmDesc>
               <Navigate />
-              <MovieInfo film={fakeFilm} />
+              <MovieInfo film={film} comments = {fakeComments}/>
             </FilmDesc>
           </div>
         </div>

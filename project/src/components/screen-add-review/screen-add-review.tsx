@@ -2,11 +2,11 @@ import Header from '../header/header';
 import Navigate from '../navigate/navigate';
 import { PosterParams, ScreenType } from '../../const';
 import Poster from '../poster/poster';
-import { fakeFilm } from '../../mock/fake-film';
+import { fakeFilm } from '../../mock/fake-data';
 
 function ScreenAddReview(): JSX.Element {
-
-  const { name, posterImage, backgroundImage } = fakeFilm;
+  const film = fakeFilm();
+  const { name, posterImage, backgroundImage } = film;
 
   return (
     <section className="film-card film-card--full">

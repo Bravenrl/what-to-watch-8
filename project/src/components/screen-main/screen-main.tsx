@@ -6,10 +6,10 @@ import Header from '../header/header';
 import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
-import { fakeFilm } from '../../mock/fake-film';
+import { fakeFilm } from '../../mock/fake-data';
 
 function ScreenMain(): JSX.Element {
-
+  const film = fakeFilm();
   const {
     // id,
     name,
@@ -28,19 +28,19 @@ function ScreenMain(): JSX.Element {
     // scoresCount,
     isFavorite,
     // runTime,
-  } = fakeFilm;
+  } = film;
 
   return (
     <>
       <section className="film-card">
-        <Poster type={PosterParams.TypeBackground} image={backgroundImage} name = {name}/>
+        <Poster type={PosterParams.TypeBackground} image={backgroundImage} name={name} />
         <Header screenType={ScreenType.Main} />
         <div className="film-card__wrap">
           <div className="film-card__info">
-            <Poster type={PosterParams.TypePoster} image={posterImage} name = {name}/>
+            <Poster type={PosterParams.TypePoster} image={posterImage} name={name} />
             <FilmDesc >
-              <FilmCard name={name} genre={genre} released = {released}/>
-              <FilmCardButtons isFavorite = {isFavorite}/>
+              <FilmCard name={name} genre={genre} released={released} />
+              <FilmCardButtons isFavorite={isFavorite} />
             </FilmDesc>
           </div>
         </div>
