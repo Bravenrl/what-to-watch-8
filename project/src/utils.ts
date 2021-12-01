@@ -21,7 +21,8 @@ export const showRatingLevel = (rating: number): string => {
 };
 
 export const formatRunTime = (runTime: number): string => dayjs.duration(runTime, 'm').format('H[h] mm[mm]');
-export const formatRunTimeForPlayer = (runTime: number): string => dayjs.duration(runTime, 'm').format('H:mm:ss');
+export const formatRunTimeForPlayer = (runTime: number): string =>
+  (dayjs(runTime).hour()) ? dayjs.duration(runTime, 's').format('mm:ss'):dayjs.duration(runTime, 's').format('h:mm:ss');
 
 export const getTwoArrSortByRating = (comments: CommentGet[]): CommentGet[][] =>
   [...comments].sort((a, b) => (b.rating - a.rating))
@@ -34,4 +35,6 @@ export const getTwoArrSortByRating = (comments: CommentGet[]): CommentGet[][] =>
       return acc;
     }, [[], []]);
 
+export const isEscEvent = (evt:KeyboardEvent): boolean => evt.key === 'Escape' || evt.key === 'Esc';
 
+export const isSpaceEvent = (evt:KeyboardEvent): boolean => evt.key === ' ' || evt.key === 'Spacebar';

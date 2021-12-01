@@ -6,10 +6,10 @@ import Header from '../header/header';
 import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
-import { CreateFakeFilm } from '../../mock/fake-data';
+import { realFilm } from '../../mock/srever-data';
 
 function ScreenMain(): JSX.Element {
-  const film = CreateFakeFilm();
+  const film = realFilm;
   const {
     id,
     name,

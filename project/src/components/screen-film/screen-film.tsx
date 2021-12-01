@@ -7,11 +7,12 @@ import Navigate from '../navigate/navigate';
 import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
-import { fakeComments, CreateFakeFilm } from '../../mock/fake-data';
+import { fakeComments } from '../../mock/fake-data';
 import MovieInfo from '../movie-info/movie-info';
+import { realFilm } from '../../mock/srever-data';
 
 function ScreenFilm(): JSX.Element {
-  const film = CreateFakeFilm();
+  const film = realFilm;
   const {
     id,
     name,
