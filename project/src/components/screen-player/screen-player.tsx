@@ -6,7 +6,7 @@ import { formatRunTimeForPlayer, isEscEvent, isSpaceEvent } from '../../utils';
 
 type ScreenPlayerProps = {
   film: Film;
-}
+};
 
 function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
   const { name, posterImage, videoLink } = film;
@@ -30,7 +30,9 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
     if (isNaN(videoRef.current.duration)) {
       return;
     }
-    setToggler((videoRef.current.currentTime / videoRef.current.duration) * 100);
+    setToggler(
+      (videoRef.current.currentTime / videoRef.current.duration) * 100
+    );
     setTimeLeft(videoRef.current.duration - videoRef.current.currentTime);
   };
 
@@ -53,11 +55,15 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
     }
   };
 
-  const handlerOnCliclProcess = (evt: React.MouseEvent<HTMLProgressElement, MouseEvent>) => {
-    if ((barRef.current === null) || (videoRef.current === null)) {
+  const handlerOnCliclProcess = (
+    evt: React.MouseEvent<HTMLProgressElement, MouseEvent>
+  ) => {
+    if (barRef.current === null || videoRef.current === null) {
       return;
     }
-    const currentWidth = (barRef.current.parentElement?.offsetLeft) ? evt.pageX - barRef.current.parentElement?.offsetLeft : evt.pageX;
+    const currentWidth = barRef.current.parentElement?.offsetLeft
+      ? evt.pageX - barRef.current.parentElement?.offsetLeft
+      : evt.pageX;
     const widthPercent = currentWidth / barRef.current.offsetWidth;
     const nowTime = widthPercent * videoRef.current.duration;
     videoRef.current.currentTime = nowTime;
@@ -83,7 +89,6 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
     };
   }, [videoLink]);
 
-
   useEffect(() => {
     if (videoRef.current === null) {
       return;
@@ -96,51 +101,75 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
   }, [isPlaying]);
 
   return (
-    <div className="player">
+    <div className='player'>
       <video
         src={videoLink}
-        ref={videoRef} className="player__video"
+        ref={videoRef}
+        className='player__video'
         poster={posterImage}
         onTimeUpdate={handlerOnCangeProgress}
         onClick={() => setIsРlaying((prevIsPlaying) => !prevIsPlaying)}
+      ></video>
+      <button
+        type='button'
+        onClick={() => navigate(fromPage)}
+        className='player__exit'
       >
-      </video>
-      <button type="button" onClick={() => navigate(fromPage)} className="player__exit">Exit</button>
+        Exit
+      </button>
 
-      <div className="player__controls">
-        <div className="player__controls-row">
-          <div className="player__time">
-            <progress ref={barRef} onClick={handlerOnCliclProcess} className="player__progress" value={toggler} max="100"></progress>
-            <div className="player__toggler" style={{ left: `${toggler}%` }}>Toggler</div>
+      <div className='player__controls'>
+        <div className='player__controls-row'>
+          <div className='player__time'>
+            <progress
+              ref={barRef}
+              onClick={handlerOnCliclProcess}
+              className='player__progress'
+              value={toggler}
+              max='100'
+            ></progress>
+            <div className='player__toggler' style={{ left: `${toggler}%` }}>
+              Toggler
+            </div>
           </div>
-          <div className="player__time-value">{formatRunTimeForPlayer(timeLeft)}</div>
+          <div className='player__time-value'>
+            {formatRunTimeForPlayer(timeLeft)}
+          </div>
         </div>
 
-        <div className="player__controls-row">
+        <div className='player__controls-row'>
           {
             <button
-              type="button"
+              type='button'
               disabled={isLoading}
-              className="player__play"
+              className='player__play'
               onClick={() => setIsРlaying((prevIsPlaying) => !prevIsPlaying)}
             >
-              <svg viewBox={(isPlaying) ? '0 0 14 21' : '0 0 19 19'} width={(isPlaying) ? 14 : 19} height={(isPlaying) ? 21 : 19}>
-                <use xlinkHref={(isPlaying) ? '#pause' : '#play-s'}></use>
+              <svg
+                viewBox={isPlaying ? '0 0 14 21' : '0 0 19 19'}
+                width={isPlaying ? 14 : 19}
+                height={isPlaying ? 21 : 19}
+              >
+                <use xlinkHref={isPlaying ? '#pause' : '#play-s'}></use>
               </svg>
-              <span>{(isPlaying) ? 'Pause' : 'Play'}</span>
+              <span>{isPlaying ? 'Pause' : 'Play'}</span>
             </button>
           }
-          <div className="player__name">{(isLoading) ? 'load' : name}</div>
+          <div className='player__name'>{isLoading ? 'load' : name}</div>
 
-          <button type="button" onClick={handlerOnFullScreen} className="player__full-screen">
-            <svg viewBox="0 0 27 27" width="27" height="27">
-              <use xlinkHref="#full-screen"></use>
+          <button
+            type='button'
+            onClick={handlerOnFullScreen}
+            className='player__full-screen'
+          >
+            <svg viewBox='0 0 27 27' width='27' height='27'>
+              <use xlinkHref='#full-screen'></use>
             </svg>
             <span>Full screen</span>
           </button>
         </div>
       </div>
-    </div >
+    </div>
   );
 }
 

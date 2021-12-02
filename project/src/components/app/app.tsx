@@ -15,22 +15,26 @@ const film = realFilm;
 
 function App(): JSX.Element {
   return (
-    <Routes >
+    <Routes>
       <Route path={AppRoute.Root} element={<ScreenMain />} />
       <Route path={AppRoute.Film} element={<ScreenFilm />} />
-      <Route path={AppRoute.MyList} element={
-        <RequireAuthRoute >
-          <ScreenMyList />
-        </RequireAuthRoute >
-      }
+      <Route
+        path={AppRoute.MyList}
+        element={
+          <RequireAuthRoute>
+            <ScreenMyList />
+          </RequireAuthRoute>
+        }
       />
-      <Route path={AppRoute.SignIn} element={
-        <AuthorizedRoute >
-          <ScreenSignIn />
-        </AuthorizedRoute>
-      }
+      <Route
+        path={AppRoute.SignIn}
+        element={
+          <AuthorizedRoute>
+            <ScreenSignIn />
+          </AuthorizedRoute>
+        }
       />
-      <Route path={AppRoute.Player} element={<ScreenPlayer film = {film}/>} />
+      <Route path={AppRoute.Player} element={<ScreenPlayer film={film} />} />
       <Route path={AppRoute.AddReview} element={<ScreenAddReview />} />
       <Route path={AppRoute.NotFound} element={<ScreenNotFound />} />
     </Routes>

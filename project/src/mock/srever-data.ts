@@ -581,6 +581,6 @@ const SERVER_FILMS: ServerFilm[] = [
 ];
 
 
-export const realFilms = SERVER_FILMS.map(adaptFilmtoClient).slice(0,8);
+export const realFilms = SERVER_FILMS.map(adaptFilmtoClient);
 
 export const realFilm = random.arrayElement(realFilms);

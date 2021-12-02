@@ -1,7 +1,10 @@
-function ShowMoreButton (): JSX.Element {
+type ShowMoreButtonProps = {
+  onButtonClick: () => void;
+}
+function ShowMoreButton ({onButtonClick}: ShowMoreButtonProps): JSX.Element {
   return (
     <div className="catalog__more">
-      <button className="catalog__button" type="button">Show more</button>
+      <button onClick= {onButtonClick} className="catalog__button" type="button">Show more</button>
     </div>
   );
 }
