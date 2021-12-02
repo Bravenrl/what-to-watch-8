@@ -12,7 +12,7 @@ function MovieOverview({description, director, rating, scoresCount, starring}: M
   return (
     <>
       <div className="film-rating">
-        <div className="film-rating__score">{rating}</div>
+        <div className="film-rating__score">{rating.toFixed(1)}</div>
         <p className="film-rating__meta">
           <span className="film-rating__level">{showRatingLevel(rating)}</span>
           <span className="film-rating__count">{scoresCount} ratings</span>

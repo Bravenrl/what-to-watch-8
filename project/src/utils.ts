@@ -1,8 +1,11 @@
 import dayjs from 'dayjs';
 import { RatingLevel } from './const';
 import duration from 'dayjs/plugin/duration';
+import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { CommentGet } from './types/data';
+
 dayjs.extend(duration);
+dayjs.extend(LocalizedFormat);
 
 export const showRatingLevel = (rating: number): string => {
   if (rating < RatingLevel.Normal.value) {
@@ -23,6 +26,8 @@ export const showRatingLevel = (rating: number): string => {
 export const formatRunTime = (runTime: number): string => dayjs.duration(runTime, 'm').format('H[h] mm[mm]');
 export const formatRunTimeForPlayer = (runTime: number): string =>
   (dayjs(runTime).hour()) ? dayjs.duration(runTime, 's').format('mm:ss'):dayjs.duration(runTime, 's').format('h:mm:ss');
+export const formatCommentDate = (date:string): string => dayjs(date).format('LL');
+
 
 export const getTwoArrSortByRating = (comments: CommentGet[]): CommentGet[][] =>
   [...comments].sort((a, b) => (b.rating - a.rating))

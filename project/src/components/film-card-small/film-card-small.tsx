@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { generatePath, Link, useNavigate } from 'react-router-dom';
 import { AppRoute, PreviewSize } from '../../const';
 
@@ -15,45 +15,59 @@ function FilmCardSmall({ id, name, previewImage, previewVideoLink }: FilmCardSma
   const navigate = useNavigate();
   const path = generatePath(AppRoute.Film, { id: id.toString() });
 
-  useEffect(() => {
-    if (smallVideoRef.current === null) {
-      return;
-    }
+  // useEffect(() => {
+  //   if (smallVideoRef.current === null) {
+  //     return;
+  //   }
 
-    if (isPlaying) {
-      smallVideoRef.current.src = previewVideoLink;
-      timeout.current = setTimeout(() => {
-        smallVideoRef.current?.play();
-      }, 1000);
-    }
+  //   if (isPlaying) {
+  //     timeout.current = setTimeout(() => {
+  //       if (smallVideoRef.current !== null) {
+  //         smallVideoRef.current.play();
+  //         // eslint-disable-next-line no-console
+  //         console.log('play');
+  //       }
+  //     }, 1000);
+  //   }
 
-    if ((timeout.current !== null) && (!isPlaying)) {
-      clearTimeout(timeout.current);
-      smallVideoRef.current.pause();
-      smallVideoRef.current.src = '';
-      smallVideoRef.current.removeAttribute('src');
-    }
+  //   if ((timeout.current !== null) && (!isPlaying)) {
+  //     smallVideoRef.current.pause();
+  //     clearTimeout(timeout.current);
+  //     //smallVideoRef.current.src = '';
+  //     // // eslint-disable-next-line no-console
+  //     // smallVideoRef.current.onerror = () => console.log('err');
+  //     //smallVideoRef.current.removeAttribute('src');
+  //     // eslint-disable-next-line no-console
+  //     console.log('stop');
+  //   }
 
-  }, [isPlaying, previewVideoLink]);
+  // }, [isPlaying]);
 
 
   return (
     <article className="small-film-card catalog__films-card"
       onClick={() => (navigate(path))}
-      onMouseEnter={() => setIsPlaying(true)}
-      onMouseLeave={() => setIsPlaying(false)}
+      onMouseEnter={() => timeout.current = setTimeout(() => {
+        setIsPlaying(true);
+      }, 1000)}
+      onMouseLeave={() => { setIsPlaying(false); if (timeout.current !== null) { clearTimeout(timeout.current); } }}
     >
       <div className="small-film-card__image">
-        <video
-          className="player__video"
-          ref={smallVideoRef}
-          poster={previewImage}
-          width={PreviewSize.Width}
-          height={PreviewSize.Height}
-          muted
-          preload='none'
-        >
-        </video>
+        {(isPlaying)
+          ?
+          <video
+            className="player__video"
+            ref={smallVideoRef}
+            poster={previewImage}
+            width={PreviewSize.Width}
+            height={PreviewSize.Height}
+            muted
+            autoPlay
+            src={previewVideoLink}
+          >
+          </video>
+          :
+          <img src={previewImage} alt={name} width="280" height="175" />}
       </div>
       <h3 className="small-film-card__title">
         <Link className="small-film-card__link"
