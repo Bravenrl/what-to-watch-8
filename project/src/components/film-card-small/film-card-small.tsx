@@ -19,15 +19,13 @@ function FilmCardSmall({ id, name, previewImage, previewVideoLink }: FilmCardSma
     <article className="small-film-card catalog__films-card"
       onClick={() => (navigate(path))}
       onMouseEnter={() => {
-        setIsPlaying(true);
         timeout.current = setTimeout(() => {
-          if (smallVideoRef.current !== null) {
-            smallVideoRef.current.play();
-          }
+          setIsPlaying(true);
         }, 1000);
       }}
       onMouseLeave={() => {
-        setIsPlaying(false); if (timeout.current !== null) {
+        setIsPlaying(false);
+        if (timeout.current !== null) {
           clearTimeout(timeout.current);
         }
       }}
@@ -42,6 +40,7 @@ function FilmCardSmall({ id, name, previewImage, previewVideoLink }: FilmCardSma
             width={PreviewSize.Width}
             height={PreviewSize.Height}
             muted
+            autoPlay
             src={previewVideoLink}
           >
           </video>
