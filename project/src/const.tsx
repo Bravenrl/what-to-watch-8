@@ -1,5 +1,17 @@
 export const AUTH_STATUS = true;
 
+export enum Reducer {
+  App = 'APP',
+  Data = 'DATA',
+  User = 'USER',
+}
+
+export enum AuthStatus {
+  Auth = 'AUTH',
+  NoAuth = 'NO_AUTH',
+  Unknown = 'UNKNOWN',
+}
+
 export const enum LogoPosition {
   Header = 'header',
   Footer = 'footer',
@@ -16,9 +28,8 @@ export const enum ScreenType {
 export const enum HeaderTitle {
   MyList = 'My list',
   SignIn = 'Sign in',
-  NotFound = '404 Page not found'
+  NotFound = '404 Page not found',
 }
-
 
 export const enum PosterParams {
   TypeBackground = 'bg',
@@ -56,7 +67,8 @@ export const GENRES: string[] = [
   'Kids & Family',
   'Romance',
   'Sci-Fi',
-  'Thrillers'];
+  'Thrillers',
+];
 
 export const RatingLevel = {
   Bad: {
@@ -80,7 +92,9 @@ export const RatingLevel = {
   },
 };
 
-export const STARS = new Array(10).fill(null).map((el, index, array) => el = array.length - index);
+export const STARS = new Array(10)
+  .fill(null)
+  .map((el, index, array) => (el = array.length - index));
 
 export const enum PreviewSize {
   Width = 280,

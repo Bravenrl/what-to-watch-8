@@ -1,11 +1,16 @@
-import { createSelector } from 'reselect';
-import { Film } from '../../types/data';
-import { getGenres } from '../../utils';
+import { Reducer } from '../../const';
+import { CommentGet, Film } from '../../types/data';
+import { State } from '../../types/state';
 
-export const getFilms = (films: Film[]): Film[] => films;
+export const getAllFilms = (state:State): Film[] => state[Reducer.Data].allFilms;
 
-export const getFilm = (film: Film): Film => film;
+export const getPromoFilm = (state:State): Film => state[Reducer.Data].promoFilm;
 
-export const getCurrentGenres = createSelector([getFilms], getGenres);
+export const getCurrentFilm = (state:State): Film => state[Reducer.Data].currentFilm;
 
+export const getSimilarFilms = (state:State): Film[] => state[Reducer.Data].similarFilms;
+
+export const getMyListFilms = (state:State): Film[] => state[Reducer.Data].myListFilms;
+
+export const getCurrentComments = (state:State): CommentGet[] => state[Reducer.Data].currentComments;
 

@@ -14,7 +14,7 @@ export type CommentPost = {
   comment: string,
 }
 
-export type User = {
+export type UserAuthData = {
   email: string,
   password: number,
 }
@@ -26,7 +26,6 @@ export type AuthInfo = {
   avatarUrl: string,
   token: string,
 };
-
 
 export type NonAdaptFilm = {
   'poster_image': string,
