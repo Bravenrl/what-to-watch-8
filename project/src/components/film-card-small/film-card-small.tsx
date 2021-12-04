@@ -1,27 +1,36 @@
 import { useRef, useState } from 'react';
 import { generatePath, Link, useNavigate } from 'react-router-dom';
-import { AppRoute, PreviewSize } from '../../const';
+import { AppRoute, PreviewSize, TIMEOUT_TIME } from '../../const';
 
 type FilmCardSmallProps = {
-  id: number,
-  name: string,
-  previewImage: string,
-  previewVideoLink: string,
-}
-function FilmCardSmall({ id, name, previewImage, previewVideoLink }: FilmCardSmallProps): JSX.Element {
+  id: number;
+  name: string;
+  previewImage: string;
+  previewVideoLink: string;
+};
+
+function FilmCardSmall({
+  id,
+  name,
+  previewImage,
+  previewVideoLink,
+}: FilmCardSmallProps): JSX.Element {
   const [isPlaying, setIsPlaying] = useState(false);
+
   const smallVideoRef = useRef<HTMLVideoElement | null>(null);
   const timeout = useRef<NodeJS.Timeout | null>(null);
+
   const navigate = useNavigate();
   const path = generatePath(AppRoute.Film, { id: id.toString() });
 
   return (
-    <article className="small-film-card catalog__films-card"
-      onClick={() => (navigate(path))}
+    <article
+      className='small-film-card catalog__films-card'
+      onClick={() => navigate(path)}
       onMouseEnter={() => {
         timeout.current = setTimeout(() => {
           setIsPlaying(true);
-        }, 1000);
+        }, TIMEOUT_TIME);
       }}
       onMouseLeave={() => {
         setIsPlaying(false);
@@ -30,11 +39,10 @@ function FilmCardSmall({ id, name, previewImage, previewVideoLink }: FilmCardSma
         }
       }}
     >
-      <div className="small-film-card__image">
-        {(isPlaying)
-          ?
+      <div className='small-film-card__image'>
+        {isPlaying ? (
           <video
-            className="player__video"
+            className='player__video'
             ref={smallVideoRef}
             poster={previewImage}
             width={PreviewSize.Width}
@@ -44,21 +52,21 @@ function FilmCardSmall({ id, name, previewImage, previewVideoLink }: FilmCardSma
             src={previewVideoLink}
           >
           </video>
-          :
-          <img src={previewImage}
+        ) : (
+          <img
+            src={previewImage}
             alt={name}
             width={PreviewSize.Width}
             height={PreviewSize.Height}
-          />}
+          />
+        )}
       </div>
-      <h3 className="small-film-card__title">
-        <Link className="small-film-card__link"
-          to={path}
-        >
+      <h3 className='small-film-card__title'>
+        <Link className='small-film-card__link' to={path}>
           {name}
         </Link>
       </h3>
-    </article >
+    </article>
   );
 }
 

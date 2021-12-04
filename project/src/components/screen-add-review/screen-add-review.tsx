@@ -10,19 +10,28 @@ function ScreenAddReview(): JSX.Element {
   const { name, posterImage, backgroundImage } = film;
 
   return (
-    <section className="film-card film-card--full">
-      <div className="film-card__header">
-        <Poster type={PosterParams.TypeBackground} image={backgroundImage} name={name} />
-        <Header screenType={ScreenType.AddReview} >
+    <section className='film-card film-card--full'>
+      <div className='film-card__header'>
+        <Poster
+          type={PosterParams.TypeBackground}
+          image={backgroundImage}
+          name={name}
+        />
+        <Header screenType={ScreenType.AddReview}>
           <Navigate />
         </Header>
-        <Poster type={PosterParams.TypePoster} size={PosterParams.SizeSmall} image={posterImage} name={name} />
+        <Poster
+          type={PosterParams.TypePoster}
+          size={PosterParams.SizeSmall}
+          image={posterImage}
+          name={name}
+        />
       </div>
 
-      <div className="add-review">
+      <div className='add-review'>
         <ReviewForm />
       </div>
-    </section >
+    </section>
   );
 }
 

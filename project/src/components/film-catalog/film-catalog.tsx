@@ -1,14 +1,13 @@
 import classNames from 'classnames';
 import { useState } from 'react';
 import { useMatch } from 'react-router-dom';
-import { AppRoute } from '../../const';
+import { AppRoute, INITIAL_FILM_COUNTER } from '../../const';
 import { realFilms } from '../../mock/srever-data';
 import FilmCardSmall from '../film-card-small/film-card-small';
 import GenresList from '../genres-list/genres-list';
 import ShowMoreButton from '../show-more-button/show-more-button';
 
 function FilmCatalog(): JSX.Element {
-  const INITIAL_FILM_COUNTER = 8;
   const isMainScreen = useMatch(AppRoute.Root);
   const isMovieScreen = useMatch(AppRoute.Film);
   const [filmCount, setFilmCount] = useState(

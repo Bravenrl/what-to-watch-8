@@ -16,6 +16,7 @@ export const enum ScreenType {
 export const enum HeaderTitle {
   MyList = 'My list',
   SignIn = 'Sign in',
+  NotFound = '404 Page not found'
 }
 
 
@@ -85,3 +86,7 @@ export const enum PreviewSize {
   Width = 280,
   Height = 175,
 }
+
+export const TIMEOUT_TIME = 1000;
+export const INITIAL_FILM_COUNTER = 8;
+export const FIXED_RATING = 1;
