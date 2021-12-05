@@ -40,12 +40,6 @@ export const appDataSlice = createSlice({
       const updatedFilm = action.payload;
       const filmToUpdate = state.allFilms.find(
         (film) => film.id === updatedFilm.id);
-      if (state.currentFilm.id === updatedFilm.id) {
-        state.currentFilm.isFavorite = updatedFilm.isFavorite;
-      }
-      if (state.promoFilm.id === updatedFilm.id) {
-        state.promoFilm.isFavorite = updatedFilm.isFavorite;
-      }
       if (state.myListFilms.length > 0) {
         state.myListFilms = state.myListFilms.filter(
           (film) => film.id !== updatedFilm.id);

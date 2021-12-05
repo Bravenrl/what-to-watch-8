@@ -21,7 +21,6 @@ function ScreenFilm(): JSX.Element {
     posterImage,
     backgroundImage,
     backgroundColor,
-    isFavorite,
   } = film;
 
   return (
@@ -33,7 +32,7 @@ function ScreenFilm(): JSX.Element {
           <div className="film-card__wrap">
             <FilmDesc >
               <FilmCard name={name} genre={genre} released={released} />
-              <FilmCardButtons id={id} isFavorite = {isFavorite}/>
+              <FilmCardButtons id={id} />
             </FilmDesc>
           </div>
         </div>

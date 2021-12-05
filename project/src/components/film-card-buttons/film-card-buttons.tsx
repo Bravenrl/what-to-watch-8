@@ -5,19 +5,17 @@ import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { updateFilm } from '../../store/app-data/slice-app-data';
 import { getPromoFilm } from '../../store/app-data/selectors-app-data';
+import { getIsFilmInList } from '../../store/app-process/selectors-app-process';
+import { toggleFilmInList } from '../../store/app-process/slice-app-process';
 
 type FilmCardButtonsProps = {
   id: number;
-  isFavorite: boolean;
 };
 
-function FilmCardButtons({
-  id,
-  isFavorite,
-}: FilmCardButtonsProps): JSX.Element {
+function FilmCardButtons({ id }: FilmCardButtonsProps): JSX.Element {
   const location = useLocation();
   const isMovieScreen = useMatch(AppRoute.Film);
-  const isInList = isFavorite;
+  const isInList = useSelector(getIsFilmInList);
 
   const dispatch = useAppDispatch();
   const film = useSelector(getPromoFilm);
@@ -45,7 +43,7 @@ function FilmCardButtons({
         type='button'
         onClick={() => {
           dispatch(updateFilm(anotherFilm));
-
+          dispatch(toggleFilmInList(anotherFilm.isFavorite));
         }}
       >
         <svg

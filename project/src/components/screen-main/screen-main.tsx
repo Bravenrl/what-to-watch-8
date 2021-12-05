@@ -16,6 +16,7 @@ import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { getPromoFilm } from '../../store/app-data/selectors-app-data';
 import Preloader from '../preloader/preloader';
+import { toggleFilmInList } from '../../store/app-process/slice-app-process';
 
 function ScreenMain(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -28,12 +29,14 @@ function ScreenMain(): JSX.Element {
     backgroundImage,
     isFavorite,
   } = useSelector(getPromoFilm);
+
   useEffect(() => {
     dispatch(loadPromoFilm(realFilm));
+    dispatch(toggleFilmInList(isFavorite));
     return () => {
       dispatch(resetPromoFilm());
     };
-  }, [dispatch]);
+  }, [dispatch, isFavorite]);
 
   if (!id) {
     return <Preloader />;
@@ -57,7 +60,7 @@ function ScreenMain(): JSX.Element {
             />
             <FilmDesc>
               <FilmCard name={name} genre={genre} released={released} />
-              <FilmCardButtons isFavorite = {isFavorite} id={id} />
+              <FilmCardButtons id={id} />
             </FilmDesc>
           </div>
         </div>
