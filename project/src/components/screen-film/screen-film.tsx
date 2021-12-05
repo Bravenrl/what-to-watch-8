@@ -33,7 +33,7 @@ function ScreenFilm(): JSX.Element {
           <div className="film-card__wrap">
             <FilmDesc >
               <FilmCard name={name} genre={genre} released={released} />
-              <FilmCardButtons isFavorite={isFavorite} id={id} />
+              <FilmCardButtons id={id} isFavorite = {isFavorite}/>
             </FilmDesc>
           </div>
         </div>

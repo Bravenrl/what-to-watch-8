@@ -31,8 +31,7 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
       return;
     }
     setToggler(
-      (videoRef.current.currentTime / videoRef.current.duration) * 100
-    );
+      (videoRef.current.currentTime / videoRef.current.duration) * 100);
     setTimeLeft(videoRef.current.duration - videoRef.current.currentTime);
   };
 
@@ -56,8 +55,7 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
   };
 
   const handlerOnCliclProcess = (
-    evt: React.MouseEvent<HTMLProgressElement, MouseEvent>
-  ) => {
+    evt: React.MouseEvent<HTMLProgressElement, MouseEvent>) => {
     if (barRef.current === null || videoRef.current === null) {
       return;
     }
@@ -109,7 +107,8 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
         poster={posterImage}
         onTimeUpdate={handlerOnCangeProgress}
         onClick={() => setIsРlaying((prevIsPlaying) => !prevIsPlaying)}
-      ></video>
+      >
+      </video>
       <button
         type='button'
         onClick={() => navigate(fromPage)}
@@ -127,7 +126,8 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
               className='player__progress'
               value={toggler}
               max='100'
-            ></progress>
+            >
+            </progress>
             <div className='player__toggler' style={{ left: `${toggler}%` }}>
               Toggler
             </div>

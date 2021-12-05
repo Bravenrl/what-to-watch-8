@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { Reducer } from '../../const';
+import { Slice } from '../../const';
 import { CommentGet, Film } from '../../types/data';
 import { AppData } from '../../types/state';
 
@@ -10,15 +10,15 @@ const initialState: AppData = {
   currentComments: [],
   similarFilms: [],
   myListFilms: [],
+  isDataLoading: false,
+  isDataPosting: false,
 };
 
 export const appDataSlice = createSlice({
-  name: Reducer.Data,
+  name: Slice.Data,
   initialState,
   reducers: {
     loadAllFilms: (state, action: PayloadAction<Film[]>) => {
-      // eslint-disable-next-line no-console
-      console.log(action.type);
       state.allFilms = action.payload;
     },
     loadPromoFilm: (state, action: PayloadAction<Film>) => {

@@ -12,7 +12,6 @@ import ScreenPlayer from '../screen-player/screen-player';
 import ScreenSignIn from '../screen-sign-in/screen-sign-in';
 
 const film = realFilm;
-
 function App(): JSX.Element {
   return (
     <Routes>

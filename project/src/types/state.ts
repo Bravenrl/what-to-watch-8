@@ -9,17 +9,18 @@ export type AppData = {
   allFilms: Film[];
   similarFilms: Film[];
   myListFilms: Film[];
+  isDataLoading: boolean;
+  isDataPosting: boolean;
 };
 
 export type AppProcess = {
   genre: string;
   movieInfo: string;
-  isDataLoading: boolean;
-  isDataPosting: boolean;
+  isFilmInList: boolean | null;
 };
 
 export type UserProcess = {
-  AuthStatus: AuthStatus;
+  authStatus: AuthStatus;
   avatarUrl: string;
 };
 

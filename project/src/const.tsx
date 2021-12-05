@@ -6,6 +6,12 @@ export enum Reducer {
   User = 'USER',
 }
 
+export enum Slice {
+  App = 'app',
+  Data = 'data',
+  User = 'user',
+}
+
 export enum AuthStatus {
   Auth = 'AUTH',
   NoAuth = 'NO_AUTH',
