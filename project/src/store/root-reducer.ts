@@ -10,3 +10,5 @@ export const RootReducer = combineReducers({
   [Reducer.App]: appProcessSlice,
   [Reducer.User]: userProcessSlice,
 });
+
+export type RootState = ReturnType<typeof RootReducer>;

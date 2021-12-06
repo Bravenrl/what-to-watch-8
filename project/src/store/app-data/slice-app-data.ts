@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Slice } from '../../const';
 import { CommentGet, Film } from '../../types/data';
 import { AppData } from '../../types/state';
+import { fetchMain } from '../../types/thunk-actions';
 import { fetchAllFilm } from '../api-actions';
 
 const initialState: AppData = {
@@ -61,8 +62,9 @@ export const appDataSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchAllFilm.fulfilled.type]: (state, action: PayloadAction<Film[]>) => {
-      state.allFilms = action.payload;
+    [fetchAllFilm.fulfilled.type]: (state, action: PayloadAction<fetchMain>) => {
+      state.allFilms = action.payload.allFilms;
+      state.promoFilm = action.payload.promoFilm;
     },
   },
 });

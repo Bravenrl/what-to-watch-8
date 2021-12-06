@@ -1,5 +1,6 @@
 import { AuthStatus } from '../const';
-import { RootState } from '../store/store';
+import { RootState } from '../store/root-reducer';
+
 import { CommentGet, Film } from './data';
 
 export type AppData = {

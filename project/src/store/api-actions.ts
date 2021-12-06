@@ -1,13 +1,22 @@
-import { createAsyncThunk } from '@reduxjs/toolkit';
+import { createAsyncThunk, Dispatch } from '@reduxjs/toolkit';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { adaptFilmtoClient } from '../services/adapter';
-import api from '../services/api';
 import { ApiRoute } from '../services/const';
 import { ServerFilm } from '../types/data';
-import { AsyncThunk } from '../types/thunk-actions';
+import { AsyncThunk, fetchMain } from '../types/thunk-actions';
+import { toggleFilmInList } from './app-process/slice-app-process';
 
-
-export const fetchAllFilm = createAsyncThunk(AsyncThunk.FetchAllFilms, async (_, thunkApi) => {
-  const { data } = await api.get<ServerFilm[]>(ApiRoute.Films);
-  const allFilms = data.map(adaptFilmtoClient);
-  return allFilms;
+export const fetchAllFilm = createAsyncThunk<
+  fetchMain,
+  undefined,
+  {dispatch: Dispatch,  extra: AxiosInstance }
+>(AsyncThunk.FetchAllFilms, async (_, {dispatch, extra: api }) => {
+  const [filmsResponse, promoResponse] = await axios.all<AxiosResponse>([
+    api.get<ServerFilm[]>(ApiRoute.Films),
+    api.get<ServerFilm>(ApiRoute.Promo),
+  ]);
+  const allFilms = filmsResponse.data.map(adaptFilmtoClient);
+  const promoFilm = adaptFilmtoClient(promoResponse.data);
+  dispatch(toggleFilmInList(promoFilm.isFavorite));
+  return {allFilms, promoFilm};
 });

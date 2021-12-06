@@ -6,17 +6,14 @@ import Header from '../header/header';
 import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
-import { realFilm } from '../../mock/srever-data';
 import { useSelector } from 'react-redux';
 import {
-  loadPromoFilm,
   resetPromoFilm
 } from '../../store/app-data/slice-app-data';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { getAllFilms, getPromoFilm } from '../../store/app-data/selectors-app-data';
 import Preloader from '../preloader/preloader';
-import { toggleFilmInList } from '../../store/app-process/slice-app-process';
 import { fetchAllFilm } from '../../store/api-actions';
 
 
@@ -29,19 +26,16 @@ function ScreenMain(): JSX.Element {
     released,
     posterImage,
     backgroundImage,
-    isFavorite,
   } = useSelector(getPromoFilm);
 
   const films = useSelector(getAllFilms);
 
   useEffect(() => {
-    dispatch(loadPromoFilm(realFilm));
-    dispatch(toggleFilmInList(isFavorite));
     dispatch(fetchAllFilm());
     return () => {
       dispatch(resetPromoFilm());
     };
-  }, [dispatch, isFavorite]);
+  }, [dispatch]);
 
   if (!id||films.length===0) {
     return <Preloader />;
