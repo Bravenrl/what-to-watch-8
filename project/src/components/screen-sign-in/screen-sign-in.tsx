@@ -1,31 +1,97 @@
-import { HeaderTitle, ScreenType } from '../../const';
+import { HeaderTitle, reEmail, rePassword, ScreenType } from '../../const';
 import Footer from '../footer/footer';
 import Header from '../header/header';
-
+import { useForm, SubmitHandler } from 'react-hook-form';
+import { UserAuthData } from '../../types/data';
+import classNames from 'classnames';
 function ScreenSignIn(): JSX.Element {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UserAuthData>({ mode: 'onSubmit', reValidateMode: 'onSubmit' });
+  // eslint-disable-next-line no-console
+  const onSubmit: SubmitHandler<UserAuthData> = (data) => console.log(data);
   return (
-    <div className="user-page">
+    <div className='user-page'>
       <Header screenType={ScreenType.SignIn}>
-        <h1 className="page-title user-page__title"> {HeaderTitle.SignIn} </h1>
+        <h1 className='page-title user-page__title'> {HeaderTitle.SignIn} </h1>
       </Header>
-      <div className="sign-in user-page__content">
-        {/* <div class="sign-in__message">
-          <p>We can’t recognize this email <br> and password combination. Please try again.</p>
-          <p>Please enter a valid email address</p>
-        </div> */}
-        <form action="#" className="sign-in__form">
-          <div className="sign-in__fields">
-            <div className="sign-in__field "> {/* sign-in__field--error */}
-              <input className="sign-in__input" type="email" placeholder="Email address" name="user-email" id="user-email" />
-              <label className="sign-in__label visually-hidden" htmlFor="user-email">Email address</label>
+      <div className='sign-in user-page__content'>
+        {(errors?.email || errors?.password) && (
+          <div className='sign-in__message'>
+            {(errors.email?.type === 'required' ||
+              errors.password?.type === 'required') && (
+              <p>
+                We can’t recognize this email <br />
+                and password combination. Please try again.
+              </p>
+            )}
+            {errors.email?.type === 'pattern' && (
+              <p>Please enter a valid email adress </p>
+            )}
+            {errors.password?.type === 'pattern' && (
+              <p>Please enter a valid password </p>
+            )}
+          </div>
+        )}
+        <form
+          action='#'
+          className='sign-in__form'
+          onSubmit={handleSubmit(onSubmit)}
+        >
+          <div className='sign-in__fields'>
+            <div
+              className={classNames('sign-in__field', {
+                'sign-in__field--error': errors?.email,
+              })}
+            >
+              <input
+                className='sign-in__input'
+                type='email'
+                placeholder='Email address'
+                autoComplete='off'
+                id='user-email'
+                {...register('email', {
+                  required: true,
+                  pattern: reEmail,
+                })}
+              />
+              <label
+                className='sign-in__label visually-hidden'
+                htmlFor='user-email'
+              >
+                Email address
+              </label>
             </div>
-            <div className="sign-in__field">
-              <input className="sign-in__input" type="password" placeholder="Password" name="user-password" id="user-password" />
-              <label className="sign-in__label visually-hidden" htmlFor="user-password">Password</label>
+            <div
+              className={classNames('sign-in__field', {
+                'sign-in__field--error': errors?.password,
+              })}
+            >
+              <input
+                className='sign-in__input'
+                type='password'
+                placeholder='Password'
+                autoComplete='off'
+                id='user-password'
+                {...register('password', {
+                  required: true,
+                  pattern: rePassword,
+                })}
+              />
+              <label
+                className='sign-in__label visually-hidden'
+                htmlFor='user-password'
+              >
+                Password
+              </label>
             </div>
           </div>
-          <div className="sign-in__submit">
-            <button className="sign-in__btn" type="submit">Sign in</button>
+          <div className='sign-in__submit'>
+            <button className='sign-in__btn' type='submit'>
+              Sign in
+            </button>
           </div>
         </form>
       </div>

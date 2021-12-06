@@ -23,7 +23,7 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const barRef = useRef<HTMLProgressElement | null>(null);
 
-  const handlerOnCangeProgress = () => {
+  const handleOnCangeProgress = () => {
     if (videoRef.current === null) {
       return;
     }
@@ -35,14 +35,14 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
     setTimeLeft(videoRef.current.duration - videoRef.current.currentTime);
   };
 
-  const handlerOnFullScreen = () => {
+  const handleOnFullScreen = () => {
     if (videoRef.current === null) {
       return;
     }
     videoRef.current?.requestFullscreen();
   };
 
-  const handlerKeydown = (evt: KeyboardEvent) => {
+  const handleKeydown = (evt: KeyboardEvent) => {
     if (isEscEvent(evt)) {
       evt.preventDefault();
       navigate(fromPage);
@@ -54,7 +54,7 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
     }
   };
 
-  const handlerOnCliclProcess = (
+  const handleOnCliclProcess = (
     evt: React.MouseEvent<HTMLProgressElement, MouseEvent>) => {
     if (barRef.current === null || videoRef.current === null) {
       return;
@@ -69,9 +69,9 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
   };
 
   useEffect(() => {
-    document.addEventListener('keydown', handlerKeydown);
+    document.addEventListener('keydown', handleKeydown);
     return () => {
-      document.removeEventListener('keydown', handlerKeydown);
+      document.removeEventListener('keydown', handleKeydown);
     };
   });
 
@@ -105,7 +105,7 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
         ref={videoRef}
         className='player__video'
         poster={posterImage}
-        onTimeUpdate={handlerOnCangeProgress}
+        onTimeUpdate={handleOnCangeProgress}
         onClick={() => setIsРlaying((prevIsPlaying) => !prevIsPlaying)}
       >
       </video>
@@ -122,7 +122,7 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
           <div className='player__time'>
             <progress
               ref={barRef}
-              onClick={handlerOnCliclProcess}
+              onClick={handleOnCliclProcess}
               className='player__progress'
               value={toggler}
               max='100'
@@ -159,7 +159,7 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
 
           <button
             type='button'
-            onClick={handlerOnFullScreen}
+            onClick={handleOnFullScreen}
             className='player__full-screen'
           >
             <svg viewBox='0 0 27 27' width='27' height='27'>

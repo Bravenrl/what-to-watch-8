@@ -1,4 +1,4 @@
-export const AUTH_STATUS = true;
+export const AUTH_STATUS = false;
 
 export enum Reducer {
   App = 'APP',
@@ -110,3 +110,13 @@ export const enum PreviewSize {
 export const TIMEOUT_TIME = 1000;
 export const INITIAL_FILM_COUNTER = 8;
 export const FIXED_RATING = 1;
+
+export const rePassword = /(?=.*[0-9])(?=.*[a-z])[0-9a-z]{2,}/;
+export const reEmail = /.+@.+\..+/i;
+
+export const PostValues  = {
+  CommentDefault: '',
+  RatingDefault: 0,
+  CommentErr: 'Write a review. The text of the review must be at least 50 and no more than 400 characters.',
+  RatingErr: 'Rate the movie',
+};

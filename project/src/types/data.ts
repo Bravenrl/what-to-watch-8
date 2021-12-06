@@ -16,7 +16,7 @@ export type CommentPost = {
 
 export type UserAuthData = {
   email: string,
-  password: number,
+  password: string,
 }
 
 export type AuthInfo = {
