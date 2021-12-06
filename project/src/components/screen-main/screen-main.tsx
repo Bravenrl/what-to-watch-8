@@ -14,9 +14,11 @@ import {
 } from '../../store/app-data/slice-app-data';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { getPromoFilm } from '../../store/app-data/selectors-app-data';
+import { getAllFilms, getPromoFilm } from '../../store/app-data/selectors-app-data';
 import Preloader from '../preloader/preloader';
 import { toggleFilmInList } from '../../store/app-process/slice-app-process';
+import { fetchAllFilm } from '../../store/api-actions';
+
 
 function ScreenMain(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -30,15 +32,18 @@ function ScreenMain(): JSX.Element {
     isFavorite,
   } = useSelector(getPromoFilm);
 
+  const films = useSelector(getAllFilms);
+
   useEffect(() => {
     dispatch(loadPromoFilm(realFilm));
     dispatch(toggleFilmInList(isFavorite));
+    dispatch(fetchAllFilm());
     return () => {
       dispatch(resetPromoFilm());
     };
   }, [dispatch, isFavorite]);
 
-  if (!id) {
+  if (!id||films.length===0) {
     return <Preloader />;
   }
 

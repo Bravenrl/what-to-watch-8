@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Slice } from '../../const';
 import { CommentGet, Film } from '../../types/data';
 import { AppData } from '../../types/state';
+import { fetchAllFilm } from '../api-actions';
 
 const initialState: AppData = {
   promoFilm: {} as Film,
@@ -39,10 +40,12 @@ export const appDataSlice = createSlice({
     updateFilm: (state, action: PayloadAction<Film>) => {
       const updatedFilm = action.payload;
       const filmToUpdate = state.allFilms.find(
-        (film) => film.id === updatedFilm.id);
+        (film) => film.id === updatedFilm.id,
+      );
       if (state.myListFilms.length > 0) {
         state.myListFilms = state.myListFilms.filter(
-          (film) => film.id !== updatedFilm.id);
+          (film) => film.id !== updatedFilm.id,
+        );
       }
       if (filmToUpdate) {
         filmToUpdate.isFavorite = updatedFilm.isFavorite;
@@ -55,6 +58,11 @@ export const appDataSlice = createSlice({
       state.similarFilms = [];
       state.currentComments = [];
       state.currentFilm = {} as Film;
+    },
+  },
+  extraReducers: {
+    [fetchAllFilm.fulfilled.type]: (state, action: PayloadAction<Film[]>) => {
+      state.allFilms = action.payload;
     },
   },
 });
