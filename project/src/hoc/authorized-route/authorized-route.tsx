@@ -1,13 +1,14 @@
 import { Navigate } from 'react-router-dom';
-import { AppRoute, AUTH_STATUS } from '../../const';
+import { AppRoute } from '../../const';
+import { useAuth } from '../../hooks/use-auth';
 
 type AuthorizedRouteProps = {
   children: JSX.Element;
 }
 
 function AuthorizedRoute({ children }: AuthorizedRouteProps): JSX.Element {
-
-  if (AUTH_STATUS) {
+  const isAuth = useAuth();
+  if (isAuth) {
     return <Navigate to={AppRoute.Root} />;
   }
   return children;

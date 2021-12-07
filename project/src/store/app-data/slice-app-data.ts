@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Slice } from '../../const';
-import { CommentGet, Film } from '../../types/data';
+import { Film } from '../../types/data';
 import { AppData } from '../../types/state';
-import { FilmScreenData, MainScreenData } from '../../types/thunk-actions';
-import { fetchFilmScreenData, fetchMainScreenData } from '../api-actions';
+import { FilmScreenData, MainScreenData, MyListScreenData } from '../../types/thunk-actions';
+import { fetchFilmScreenData, fetchMainScreenData, fetchMyListScreenData } from '../api-actions';
 
 const initialState: AppData = {
   promoFilm: {} as Film,
@@ -20,24 +20,6 @@ export const appDataSlice = createSlice({
   name: Slice.Data,
   initialState,
   reducers: {
-    loadAllFilms: (state, action: PayloadAction<Film[]>) => {
-      state.allFilms = action.payload;
-    },
-    loadPromoFilm: (state, action: PayloadAction<Film>) => {
-      state.promoFilm = action.payload;
-    },
-    loadCurrentFilm: (state, action: PayloadAction<Film>) => {
-      state.currentFilm = action.payload;
-    },
-    loadCurrentComments: (state, action: PayloadAction<CommentGet[]>) => {
-      state.currentComments = action.payload;
-    },
-    loadSimilarFilms: (state, action: PayloadAction<Film[]>) => {
-      state.similarFilms = action.payload;
-    },
-    loadMyListFilms: (state, action: PayloadAction<Film[]>) => {
-      state.myListFilms = action.payload;
-    },
     updateFilm: (state, action: PayloadAction<Film>) => {
       const updatedFilm = action.payload;
       const filmToUpdate = state.allFilms.find(
@@ -60,6 +42,9 @@ export const appDataSlice = createSlice({
       state.currentComments = [];
       state.currentFilm = {} as Film;
     },
+    resetMyListFilms: (state) => {
+      state.myListFilms = [];
+    },
   },
   extraReducers: {
     [fetchMainScreenData.fulfilled.type]: (state, action: PayloadAction<MainScreenData>) => {
@@ -71,17 +56,15 @@ export const appDataSlice = createSlice({
       state.currentFilm = action.payload.currentFilm;
       state.currentComments = action.payload.currentComments;
     },
+    [fetchMyListScreenData.fulfilled.type]: (state, action: PayloadAction<MyListScreenData>) => {
+      state.myListFilms = action.payload.myListFilms;
+    },
   },
 });
 
 export const {
-  loadAllFilms,
-  loadPromoFilm,
-  loadCurrentFilm,
-  loadCurrentComments,
-  loadMyListFilms,
-  loadSimilarFilms,
   resetCurrentFilm,
+  resetMyListFilms,
   updateFilm,
   resetPromoFilm,
 } = appDataSlice.actions;

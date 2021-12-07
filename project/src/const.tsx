@@ -1,4 +1,4 @@
-export const AUTH_STATUS = false;
+export const AUTH_STATUS = true;
 
 export enum Reducer {
   App = 'APP',
