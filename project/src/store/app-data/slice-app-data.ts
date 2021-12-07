@@ -2,8 +2,8 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Slice } from '../../const';
 import { CommentGet, Film } from '../../types/data';
 import { AppData } from '../../types/state';
-import { fetchMain } from '../../types/thunk-actions';
-import { fetchAllFilm } from '../api-actions';
+import { FilmScreenData, MainScreenData } from '../../types/thunk-actions';
+import { fetchFilmScreenData, fetchMainScreenData } from '../api-actions';
 
 const initialState: AppData = {
   promoFilm: {} as Film,
@@ -62,9 +62,14 @@ export const appDataSlice = createSlice({
     },
   },
   extraReducers: {
-    [fetchAllFilm.fulfilled.type]: (state, action: PayloadAction<fetchMain>) => {
+    [fetchMainScreenData.fulfilled.type]: (state, action: PayloadAction<MainScreenData>) => {
       state.allFilms = action.payload.allFilms;
       state.promoFilm = action.payload.promoFilm;
+    },
+    [fetchFilmScreenData.fulfilled.type]: (state, action: PayloadAction<FilmScreenData>) => {
+      state.similarFilms = action.payload.similarFilms;
+      state.currentFilm = action.payload.currentFilm;
+      state.currentComments = action.payload.currentComments;
     },
   },
 });

@@ -14,7 +14,7 @@ import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { getAllFilms, getPromoFilm } from '../../store/app-data/selectors-app-data';
 import Preloader from '../preloader/preloader';
-import { fetchAllFilm } from '../../store/api-actions';
+import { fetchMainScreenData } from '../../store/api-actions';
 
 
 function ScreenMain(): JSX.Element {
@@ -31,7 +31,7 @@ function ScreenMain(): JSX.Element {
   const films = useSelector(getAllFilms);
 
   useEffect(() => {
-    dispatch(fetchAllFilm());
+    dispatch(fetchMainScreenData());
     return () => {
       dispatch(resetPromoFilm());
     };
@@ -66,7 +66,7 @@ function ScreenMain(): JSX.Element {
       </section>
 
       <div className='page-content'>
-        <FilmCatalog />
+        <FilmCatalog films = {films}/>
         <Footer />
       </div>
     </>

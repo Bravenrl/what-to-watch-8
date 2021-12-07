@@ -2,15 +2,15 @@ import { createAsyncThunk, Dispatch } from '@reduxjs/toolkit';
 import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import { adaptFilmtoClient } from '../services/adapter';
 import { ApiRoute } from '../services/const';
-import { ServerFilm } from '../types/data';
-import { AsyncThunk, fetchMain } from '../types/thunk-actions';
+import { CommentGet, ServerFilm } from '../types/data';
+import { AsyncThunk, FilmScreenData, MainScreenData } from '../types/thunk-actions';
 import { toggleFilmInList } from './app-process/slice-app-process';
 
-export const fetchAllFilm = createAsyncThunk<
-  fetchMain,
+export const fetchMainScreenData = createAsyncThunk<
+  MainScreenData,
   undefined,
   {dispatch: Dispatch,  extra: AxiosInstance }
->(AsyncThunk.FetchAllFilms, async (_, {dispatch, extra: api }) => {
+>(AsyncThunk.FetchMainScreenData, async (_, {dispatch, extra: api }) => {
   const [filmsResponse, promoResponse] = await axios.all<AxiosResponse>([
     api.get<ServerFilm[]>(ApiRoute.Films),
     api.get<ServerFilm>(ApiRoute.Promo),
@@ -19,4 +19,21 @@ export const fetchAllFilm = createAsyncThunk<
   const promoFilm = adaptFilmtoClient(promoResponse.data);
   dispatch(toggleFilmInList(promoFilm.isFavorite));
   return {allFilms, promoFilm};
+});
+
+export const fetchFilmScreenData = createAsyncThunk<
+  FilmScreenData,
+  string,
+  {dispatch: Dispatch,  extra: AxiosInstance }
+>(AsyncThunk.FetchFilmScreenData, async (id, {dispatch, extra: api }) => {
+  const [similarResponse, currentResponse, commentsResponse] = await axios.all<AxiosResponse>([
+    api.get<ServerFilm[]>(`${ApiRoute.Films}/${id}${ApiRoute.Similar}`),
+    api.get<ServerFilm>(`${ApiRoute.Films}/${id}`),
+    api.get<CommentGet[]>(`${ApiRoute.Comments}/${id}`),
+  ]);
+  const similarFilms = similarResponse.data.map(adaptFilmtoClient);
+  const currentFilm = adaptFilmtoClient(currentResponse.data);
+  const currentComments = commentsResponse.data;
+  dispatch(toggleFilmInList(currentFilm.isFavorite));
+  return {similarFilms, currentFilm, currentComments};
 });

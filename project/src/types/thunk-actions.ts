@@ -1,10 +1,17 @@
-import { Film } from './data';
+import { CommentGet, Film } from './data';
 
 export enum AsyncThunk {
-  FetchAllFilms = 'data/fetchAllFilms',
+  FetchMainScreenData = 'data/fetchMainScreenData',
+  FetchFilmScreenData = 'data/fetchFilmScreenData',
 }
 
-export type fetchMain = {
+export type MainScreenData = {
   allFilms: Film[];
   promoFilm: Film;
 };
+
+export type FilmScreenData = {
+  similarFilms: Film[];
+  currentFilm: Film;
+  currentComments: CommentGet[];
+}
