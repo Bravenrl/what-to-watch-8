@@ -7,6 +7,7 @@ import { updateFilm } from '../../store/app-data/slice-app-data';
 import { getPromoFilm } from '../../store/app-data/selectors-app-data';
 import { getIsFilmInList } from '../../store/app-process/selectors-app-process';
 import { toggleFilmInList } from '../../store/app-process/slice-app-process';
+import { useAuth } from '../../hooks/use-auth';
 
 type FilmCardButtonsProps = {
   id: number;
@@ -16,6 +17,7 @@ function FilmCardButtons({ id }: FilmCardButtonsProps): JSX.Element {
   const location = useLocation();
   const isMovieScreen = useMatch(AppRoute.Film);
   const isInList = useSelector(getIsFilmInList);
+  const isAuth = useAuth();
 
   const dispatch = useAppDispatch();
   const film = useSelector(getPromoFilm);
@@ -55,7 +57,7 @@ function FilmCardButtons({ id }: FilmCardButtonsProps): JSX.Element {
         </svg>
         <span>My list</span>
       </button>
-      {isMovieScreen && (
+      {(isMovieScreen&&isAuth) && (
         <Link to={moviePath} className='btn film-card__button'>
           Add review
         </Link>

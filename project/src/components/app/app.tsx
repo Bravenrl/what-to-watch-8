@@ -34,7 +34,14 @@ function App(): JSX.Element {
         }
       />
       <Route path={AppRoute.Player} element={<ScreenPlayer film={film} />} />
-      <Route path={AppRoute.AddReview} element={<ScreenAddReview />} />
+      <Route
+        path={AppRoute.AddReview}
+        element={
+          <RequireAuthRoute>
+            <ScreenAddReview />
+          </RequireAuthRoute>
+        }
+      />
       <Route path={AppRoute.NotFound} element={<ScreenNotFound />} />
     </Routes>
   );

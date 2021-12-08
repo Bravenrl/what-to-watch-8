@@ -2,11 +2,12 @@ import Header from '../header/header';
 import Navigate from '../navigate/navigate';
 import { PosterParams, ScreenType } from '../../const';
 import Poster from '../poster/poster';
-import { CreateFakeFilm } from '../../mock/fake-data';
 import ReviewForm from '../review-form/review-form';
+import { useSelector } from 'react-redux';
+import { getCurrentFilm } from '../../store/app-data/selectors-app-data';
 
 function ScreenAddReview(): JSX.Element {
-  const film = CreateFakeFilm();
+  const film = useSelector(getCurrentFilm);
   const { name, posterImage, backgroundImage } = film;
 
   return (

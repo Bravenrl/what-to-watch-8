@@ -1,16 +1,31 @@
-import { createAsyncThunk, Dispatch } from '@reduxjs/toolkit';
-import axios, { AxiosInstance, AxiosResponse } from 'axios';
-import { adaptFilmtoClient } from '../services/adapter';
-import { ApiRoute } from '../services/const';
-import { CommentGet, ServerFilm } from '../types/data';
-import { AsyncThunk, FilmScreenData, MainScreenData, MyListScreenData } from '../types/thunk-actions';
+import { createAsyncThunk } from '@reduxjs/toolkit';
+import axios, { AxiosResponse } from 'axios';
+import { toast } from 'react-toastify';
+import { adaptAuthInfoToClient, adaptFilmtoClient } from '../services/adapter';
+import { ApiRoute, HttpCode, ToastMessage } from '../services/const';
+import { removeToken, setToken } from '../services/token';
+import {
+  CommentGet,
+  Film,
+  ServerAuthInfo,
+  ServerFilm,
+  UserAuthData
+} from '../types/data';
+import {
+  AsyncThunk,
+  AsyncThunkConfig,
+  AuthData,
+  FilmScreenData,
+  MainScreenData,
+  MyListScreenData
+} from '../types/thunk-actions';
 import { toggleFilmInList } from './app-process/slice-app-process';
 
 export const fetchMainScreenData = createAsyncThunk<
   MainScreenData,
   undefined,
-  {dispatch: Dispatch,  extra: AxiosInstance }
->(AsyncThunk.FetchMainScreenData, async (_, {dispatch, extra: api }) => {
+  AsyncThunkConfig
+>(AsyncThunk.FetchMainScreenData, async (_, { dispatch, extra: api }) => {
   const [filmsResponse, promoResponse] = await axios.all<AxiosResponse>([
     api.get<ServerFilm[]>(ApiRoute.Films),
     api.get<ServerFilm>(ApiRoute.Promo),
@@ -18,15 +33,19 @@ export const fetchMainScreenData = createAsyncThunk<
   const allFilms = filmsResponse.data.map(adaptFilmtoClient);
   const promoFilm = adaptFilmtoClient(promoResponse.data);
   dispatch(toggleFilmInList(promoFilm.isFavorite));
-  return {allFilms, promoFilm};
+  return { allFilms, promoFilm };
 });
 
 export const fetchFilmScreenData = createAsyncThunk<
   FilmScreenData,
   string,
-  {dispatch: Dispatch,  extra: AxiosInstance }
->(AsyncThunk.FetchFilmScreenData, async (id, {dispatch, extra: api }) => {
-  const [{data: similarData}, {data: currentData}, {data: currentComments}] = await axios.all<AxiosResponse>([
+  AsyncThunkConfig
+>(AsyncThunk.FetchFilmScreenData, async (id, { dispatch, extra: api }) => {
+  const [
+    { data: similarData },
+    { data: currentData },
+    { data: currentComments },
+  ] = await axios.all<AxiosResponse>([
     api.get<ServerFilm[]>(`${ApiRoute.Films}/${id}${ApiRoute.Similar}`),
     api.get<ServerFilm>(`${ApiRoute.Films}/${id}`),
     api.get<CommentGet[]>(`${ApiRoute.Comments}/${id}`),
@@ -34,15 +53,77 @@ export const fetchFilmScreenData = createAsyncThunk<
   const similarFilms = similarData.map(adaptFilmtoClient);
   const currentFilm = adaptFilmtoClient(currentData);
   dispatch(toggleFilmInList(currentFilm.isFavorite));
-  return {similarFilms, currentFilm, currentComments};
+  return { similarFilms, currentFilm, currentComments };
 });
 
 export const fetchMyListScreenData = createAsyncThunk<
-MyListScreenData,
-undefined,
-{extra: AxiosInstance }
->(AsyncThunk.FetchMyListScreenData, async (_, {extra: api }) => {
-  const {data} = await api.get<ServerFilm[]>(ApiRoute.Favorite);
+  MyListScreenData,
+  undefined,
+  AsyncThunkConfig
+>(AsyncThunk.FetchMyListScreenData, async (_, { extra: api }) => {
+  const { data } = await api.get<ServerFilm[]>(ApiRoute.Favorite);
   const myListFilms = data.map(adaptFilmtoClient);
-  return {myListFilms};
+  return { myListFilms };
+});
+
+export const checkAuthStatus = createAsyncThunk<
+  AuthData,
+  undefined,
+  AsyncThunkConfig
+>(AsyncThunk.CheckAuthStatus, async (_, { rejectWithValue, extra: api }) => {
+  try {
+    const { data } = await api.get<ServerAuthInfo>(ApiRoute.Login);
+    const { avatarUrl, token } = adaptAuthInfoToClient(data);
+    setToken(token);
+    return { avatarUrl };
+  } catch (err) {
+    toast.info(ToastMessage.Unauthorized);
+    return rejectWithValue(HttpCode.Unauthorised);
+  }
+});
+
+export const loginAction = createAsyncThunk<
+  AuthData,
+  UserAuthData,
+  AsyncThunkConfig
+>(
+  AsyncThunk.LoginAction,
+  async (userData, { rejectWithValue, extra: api }) => {
+    try {
+      const { data } = await api.post<ServerAuthInfo>(ApiRoute.Login, userData);
+      const { avatarUrl, token } = adaptAuthInfoToClient(data);
+      setToken(token);
+      return { avatarUrl };
+    } catch (err) {
+      toast.error(ToastMessage.BadRequest);
+      return rejectWithValue(HttpCode.BadRequest);
+    }
+  },
+);
+
+export const logoutAction = createAsyncThunk<void, undefined, AsyncThunkConfig>(
+  AsyncThunk.LogoutAction,
+  async (_, { extra: api }) => {
+    await api.delete(ApiRoute.Logout);
+    removeToken();
+  },
+);
+
+export const postMyListData = createAsyncThunk<
+  {film: Film},
+  {id: number, status: number},
+  AsyncThunkConfig
+>(AsyncThunk.FetchMyListScreenData, async ({id, status}, { extra: api }) => {
+  const { data } = await api.post<ServerFilm>(`${ApiRoute.Favorite}/${id}/${status}`);
+  const film = adaptFilmtoClient(data);
+  return { film };
+});
+
+export const postCommentData = createAsyncThunk<
+  {currentComments: CommentGet[]},
+  {id: number },
+  AsyncThunkConfig
+>(AsyncThunk.FetchMyListScreenData, async ({id}, { extra: api }) => {
+  const { data: currentComments } = await api.post<CommentGet[]>(`${ApiRoute.Comments}/${id}`);
+  return { currentComments };
 });

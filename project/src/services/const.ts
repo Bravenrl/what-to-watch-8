@@ -19,10 +19,8 @@ export const enum HttpCode {
   OK = 200,
 }
 
-export const enum ToastMessage {
-  Unauthorised = 'log in, please',
-  ВadRequest = 'request error, check the entered data',
-  NotFound = 'data not available',
-  NetworkErr = 'network error',
-  LoadFiail = 'failed data loading'
+export enum ToastMessage {
+  Unauthorized = 'Don\'t forget to log in',
+  BadRequest = 'Check the entered data',
+  NotFound = 'No data found',
 }

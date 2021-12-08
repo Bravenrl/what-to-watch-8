@@ -19,7 +19,6 @@ import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchFilmScreenData } from '../../store/api-actions';
 import { useParams } from 'react-router-dom';
-import { resetCurrentFilm } from '../../store/app-data/slice-app-data';
 
 function ScreenFilm(): JSX.Element {
   const {id: pathId} = useParams();
@@ -38,9 +37,6 @@ function ScreenFilm(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchFilmScreenData(pathId||''));
-    return () => {
-      dispatch(resetCurrentFilm());
-    };
   }, [pathId, dispatch]);
 
   if (!id) {
