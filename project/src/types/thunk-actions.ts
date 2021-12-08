@@ -11,6 +11,8 @@ export enum AsyncThunk {
   CheckAuthStatus = 'user/checkAuthStatus',
   LoginAction = 'user/loginAction',
   LogoutAction = 'user/logoutAction',
+  PostMyListData = 'data/postMyListData',
+  PostCommentData = 'data/postCommentData',
 }
 
 export type AsyncThunkConfig = {

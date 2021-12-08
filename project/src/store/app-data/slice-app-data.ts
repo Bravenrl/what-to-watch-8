@@ -2,8 +2,12 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Slice } from '../../const';
 import { Film } from '../../types/data';
 import { AppData } from '../../types/state';
-import { FilmScreenData, MainScreenData, MyListScreenData } from '../../types/thunk-actions';
-import { fetchFilmScreenData, fetchMainScreenData, fetchMyListScreenData } from '../api-actions';
+import { FilmScreenData,
+  MainScreenData,
+  MyListScreenData } from '../../types/thunk-actions';
+import { fetchFilmScreenData,
+  fetchMainScreenData,
+  fetchMyListScreenData } from '../api-actions';
 
 const initialState: AppData = {
   promoFilm: {} as Film,

@@ -19,6 +19,7 @@ import {
   MainScreenData,
   MyListScreenData
 } from '../types/thunk-actions';
+import { updateFilm } from './app-data/slice-app-data';
 import { toggleFilmInList } from './app-process/slice-app-process';
 
 export const fetchMainScreenData = createAsyncThunk<
@@ -113,9 +114,10 @@ export const postMyListData = createAsyncThunk<
   {film: Film},
   {id: number, status: number},
   AsyncThunkConfig
->(AsyncThunk.FetchMyListScreenData, async ({id, status}, { extra: api }) => {
+>(AsyncThunk.PostMyListData, async ({id, status}, { dispatch, extra: api }) => {
   const { data } = await api.post<ServerFilm>(`${ApiRoute.Favorite}/${id}/${status}`);
   const film = adaptFilmtoClient(data);
+  dispatch(updateFilm(film));
   return { film };
 });
 
@@ -123,7 +125,7 @@ export const postCommentData = createAsyncThunk<
   {currentComments: CommentGet[]},
   {id: number },
   AsyncThunkConfig
->(AsyncThunk.FetchMyListScreenData, async ({id}, { extra: api }) => {
+>(AsyncThunk.PostCommentData, async ({id}, { extra: api }) => {
   const { data: currentComments } = await api.post<CommentGet[]>(`${ApiRoute.Comments}/${id}`);
   return { currentComments };
 });

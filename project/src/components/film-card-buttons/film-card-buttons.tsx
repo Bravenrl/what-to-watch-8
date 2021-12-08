@@ -1,31 +1,27 @@
 import { useSelector } from 'react-redux';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { generatePath, Link, useMatch } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { updateFilm } from '../../store/app-data/slice-app-data';
-import { getPromoFilm } from '../../store/app-data/selectors-app-data';
 import { getIsFilmInList } from '../../store/app-process/selectors-app-process';
-import { toggleFilmInList } from '../../store/app-process/slice-app-process';
 import { useAuth } from '../../hooks/use-auth';
+import { postMyListData } from '../../store/api-actions';
 
 type FilmCardButtonsProps = {
   id: number;
 };
 
 function FilmCardButtons({ id }: FilmCardButtonsProps): JSX.Element {
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
   const location = useLocation();
   const isMovieScreen = useMatch(AppRoute.Film);
   const isInList = useSelector(getIsFilmInList);
   const isAuth = useAuth();
-
-  const dispatch = useAppDispatch();
-  const film = useSelector(getPromoFilm);
-  const anotherFilm = { ...film, isFavorite: !film.isFavorite };
-
   const moviePath = isMovieScreen
     ? generatePath(AppRoute.AddReview, isMovieScreen.params)
     : '';
+
   const playerPath = generatePath(AppRoute.Player, { id: id.toString() });
   return (
     <div className='film-card__buttons'>
@@ -44,8 +40,9 @@ function FilmCardButtons({ id }: FilmCardButtonsProps): JSX.Element {
         className='btn btn--list film-card__button'
         type='button'
         onClick={() => {
-          dispatch(updateFilm(anotherFilm));
-          dispatch(toggleFilmInList(anotherFilm.isFavorite));
+          isAuth
+            ? dispatch(postMyListData({ id, status: +!isInList }))
+            : navigate(AppRoute.SignIn);
         }}
       >
         <svg
@@ -57,7 +54,7 @@ function FilmCardButtons({ id }: FilmCardButtonsProps): JSX.Element {
         </svg>
         <span>My list</span>
       </button>
-      {(isMovieScreen&&isAuth) && (
+      {isMovieScreen && isAuth && (
         <Link to={moviePath} className='btn film-card__button'>
           Add review
         </Link>

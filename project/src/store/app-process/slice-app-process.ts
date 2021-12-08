@@ -1,6 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ALL_GENRES, FilmInfo, Slice } from '../../const';
+import { Film } from '../../types/data';
 import { AppProcess } from '../../types/state';
+import { postMyListData } from '../api-actions';
 
 const initialState: AppProcess = {
   genre: ALL_GENRES,
@@ -20,6 +22,11 @@ export const appProcessSlice = createSlice({
     },
     toggleFilmInList: (state, action: PayloadAction<boolean | null>) => {
       state.isFilmInList = action.payload;
+    },
+  },
+  extraReducers: {
+    [postMyListData.fulfilled.type]: (state, action: PayloadAction<Film>) => {
+      state.isFilmInList = action.payload.isFavorite;
     },
   },
 });

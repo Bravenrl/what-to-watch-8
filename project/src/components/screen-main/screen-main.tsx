@@ -7,26 +7,20 @@ import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
 import { useSelector } from 'react-redux';
-import {
-  resetPromoFilm
-} from '../../store/app-data/slice-app-data';
+import { resetPromoFilm } from '../../store/app-data/slice-app-data';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { getAllFilms, getPromoFilm } from '../../store/app-data/selectors-app-data';
+import {
+  getAllFilms,
+  getPromoFilm
+} from '../../store/app-data/selectors-app-data';
 import Preloader from '../preloader/preloader';
 import { fetchMainScreenData } from '../../store/api-actions';
 
-
 function ScreenMain(): JSX.Element {
   const dispatch = useAppDispatch();
-  const {
-    id,
-    name,
-    genre,
-    released,
-    posterImage,
-    backgroundImage,
-  } = useSelector(getPromoFilm);
+  const { id, name, genre, released, posterImage, backgroundImage } =
+    useSelector(getPromoFilm);
 
   const films = useSelector(getAllFilms);
 
@@ -37,7 +31,7 @@ function ScreenMain(): JSX.Element {
     };
   }, [dispatch]);
 
-  if (!id||films.length===0) {
+  if (!id || films.length === 0) {
     return <Preloader />;
   }
 
@@ -66,7 +60,7 @@ function ScreenMain(): JSX.Element {
       </section>
 
       <div className='page-content'>
-        <FilmCatalog films = {films}/>
+        <FilmCatalog films={films} />
         <Footer />
       </div>
     </>
