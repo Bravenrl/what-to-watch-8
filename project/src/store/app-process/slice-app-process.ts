@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ALL_GENRES, FilmInfo, Slice } from '../../const';
 import { AppProcess } from '../../types/state';
 
+
 const initialState: AppProcess = {
   genre: ALL_GENRES,
   movieInfo: FilmInfo.Overview,

@@ -2,8 +2,13 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { Slice } from '../../const';
 import { Film } from '../../types/data';
 import { AppData } from '../../types/state';
-import { FilmScreenData, MainScreenData, MyListScreenData } from '../../types/thunk-actions';
-import { fetchFilmScreenData, fetchMainScreenData, fetchMyListScreenData } from '../api-actions';
+import { FilmScreenData,
+  MainScreenData,
+  MyListScreenData } from '../../types/thunk-actions';
+import { fetchFilmScreenData,
+  fetchMainScreenData,
+  fetchMyListScreenData,
+  postMyListData} from '../api-actions';
 
 const initialState: AppData = {
   promoFilm: {} as Film,
@@ -20,20 +25,6 @@ export const appDataSlice = createSlice({
   name: Slice.Data,
   initialState,
   reducers: {
-    updateFilm: (state, action: PayloadAction<Film>) => {
-      const updatedFilm = action.payload;
-      const filmToUpdate = state.allFilms.find(
-        (film) => film.id === updatedFilm.id,
-      );
-      if (state.myListFilms.length > 0) {
-        state.myListFilms = state.myListFilms.filter(
-          (film) => film.id !== updatedFilm.id,
-        );
-      }
-      if (filmToUpdate) {
-        filmToUpdate.isFavorite = updatedFilm.isFavorite;
-      }
-    },
     resetPromoFilm: (state) => {
       state.promoFilm = {} as Film;
     },
@@ -59,13 +50,26 @@ export const appDataSlice = createSlice({
     [fetchMyListScreenData.fulfilled.type]: (state, action: PayloadAction<MyListScreenData>) => {
       state.myListFilms = action.payload.myListFilms;
     },
+    [postMyListData.fulfilled.type]: (state, action: PayloadAction<Film>) => {
+      const updatedFilm = action.payload;
+      const filmToUpdate = state.allFilms.find(
+        (film) => film.id === updatedFilm.id,
+      );
+      if (state.myListFilms.length > 0) {
+        state.myListFilms = state.myListFilms.filter(
+          (film) => film.id !== updatedFilm.id,
+        );
+      }
+      if (filmToUpdate) {
+        filmToUpdate.isFavorite = updatedFilm.isFavorite;
+      }
+    },
   },
 });
 
 export const {
   resetCurrentFilm,
   resetMyListFilms,
-  updateFilm,
   resetPromoFilm,
 } = appDataSlice.actions;
 

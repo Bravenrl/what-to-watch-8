@@ -1,13 +1,11 @@
 import { useSelector } from 'react-redux';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink, useLocation, useNavigate } from 'react-router-dom';
 import { generatePath, Link, useMatch } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
-import { updateFilm } from '../../store/app-data/slice-app-data';
-import { getPromoFilm } from '../../store/app-data/selectors-app-data';
 import { getIsFilmInList } from '../../store/app-process/selectors-app-process';
-import { toggleFilmInList } from '../../store/app-process/slice-app-process';
 import { useAuth } from '../../hooks/use-auth';
+import { postMyListData } from '../../store/api-actions';
 
 type FilmCardButtonsProps = {
   id: number;
@@ -16,17 +14,18 @@ type FilmCardButtonsProps = {
 function FilmCardButtons({ id }: FilmCardButtonsProps): JSX.Element {
   const location = useLocation();
   const isMovieScreen = useMatch(AppRoute.Film);
-  const isInList = useSelector(getIsFilmInList);
+  const isInListStatus = useSelector(getIsFilmInList);
   const isAuth = useAuth();
+  const navigate = useNavigate();
 
   const dispatch = useAppDispatch();
-  const film = useSelector(getPromoFilm);
-  const anotherFilm = { ...film, isFavorite: !film.isFavorite };
 
   const moviePath = isMovieScreen
     ? generatePath(AppRoute.AddReview, isMovieScreen.params)
     : '';
+
   const playerPath = generatePath(AppRoute.Player, { id: id.toString() });
+
   return (
     <div className='film-card__buttons'>
       <NavLink
@@ -44,20 +43,21 @@ function FilmCardButtons({ id }: FilmCardButtonsProps): JSX.Element {
         className='btn btn--list film-card__button'
         type='button'
         onClick={() => {
-          dispatch(updateFilm(anotherFilm));
-          dispatch(toggleFilmInList(anotherFilm.isFavorite));
+          isAuth
+            ? dispatch(postMyListData({ id, status: +!isInListStatus }))
+            : navigate(AppRoute.SignIn);
         }}
       >
         <svg
-          viewBox={isInList ? '0 0 18 14' : '0 0 19 20'}
-          width={isInList ? '18' : '19'}
-          height={isInList ? '14' : '20'}
+          viewBox={isInListStatus ? '0 0 18 14' : '0 0 19 20'}
+          width={isInListStatus ? '18' : '19'}
+          height={isInListStatus ? '14' : '20'}
         >
-          <use xlinkHref={isInList ? '#in-list' : '#add'}></use>
+          <use xlinkHref={isInListStatus ? '#in-list' : '#add'}></use>
         </svg>
         <span>My list</span>
       </button>
-      {(isMovieScreen&&isAuth) && (
+      {isMovieScreen && isAuth && (
         <Link to={moviePath} className='btn film-card__button'>
           Add review
         </Link>

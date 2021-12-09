@@ -110,20 +110,21 @@ export const logoutAction = createAsyncThunk<void, undefined, AsyncThunkConfig>(
 );
 
 export const postMyListData = createAsyncThunk<
-  {film: Film},
+  Film,
   {id: number, status: number},
   AsyncThunkConfig
->(AsyncThunk.FetchMyListScreenData, async ({id, status}, { extra: api }) => {
+>(AsyncThunk.PostMyListData, async ({id, status}, { dispatch, extra: api }) => {
   const { data } = await api.post<ServerFilm>(`${ApiRoute.Favorite}/${id}/${status}`);
   const film = adaptFilmtoClient(data);
-  return { film };
+  dispatch(toggleFilmInList(film.isFavorite));
+  return film;
 });
 
 export const postCommentData = createAsyncThunk<
-  {currentComments: CommentGet[]},
+  CommentGet[],
   {id: number },
   AsyncThunkConfig
->(AsyncThunk.FetchMyListScreenData, async ({id}, { extra: api }) => {
+>(AsyncThunk.PostCommentData, async ({id}, { extra: api }) => {
   const { data: currentComments } = await api.post<CommentGet[]>(`${ApiRoute.Comments}/${id}`);
-  return { currentComments };
+  return currentComments;
 });
