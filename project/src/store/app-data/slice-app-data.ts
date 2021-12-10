@@ -8,6 +8,7 @@ import { FilmScreenData,
 import { fetchFilmScreenData,
   fetchMainScreenData,
   fetchMyListScreenData,
+  postCommentData,
   postMyListData} from '../api-actions';
 
 const initialState: AppData = {
@@ -41,14 +42,35 @@ export const appDataSlice = createSlice({
     [fetchMainScreenData.fulfilled.type]: (state, action: PayloadAction<MainScreenData>) => {
       state.allFilms = action.payload.allFilms;
       state.promoFilm = action.payload.promoFilm;
+      state.isDataLoading = false;
+    },
+    [fetchMainScreenData.pending.type]: (state) => {
+      state.isDataLoading = true;
+    },
+    [fetchMainScreenData.rejected.type]: (state, action:PayloadAction<number>) => {
+      state.isDataLoading = false;
     },
     [fetchFilmScreenData.fulfilled.type]: (state, action: PayloadAction<FilmScreenData>) => {
       state.similarFilms = action.payload.similarFilms;
       state.currentFilm = action.payload.currentFilm;
       state.currentComments = action.payload.currentComments;
+      state.isDataLoading = false;
+    },
+    [fetchFilmScreenData.pending.type]: (state) => {
+      state.isDataLoading = true;
+    },
+    [fetchFilmScreenData.rejected.type]: (state) => {
+      state.isDataLoading = false;
     },
     [fetchMyListScreenData.fulfilled.type]: (state, action: PayloadAction<MyListScreenData>) => {
       state.myListFilms = action.payload.myListFilms;
+      state.isDataLoading = false;
+    },
+    [fetchMyListScreenData.pending.type]: (state) => {
+      state.isDataLoading = true;
+    },
+    [fetchMyListScreenData.rejected.type]: (state) => {
+      state.isDataLoading = false;
     },
     [postMyListData.fulfilled.type]: (state, action: PayloadAction<Film>) => {
       const updatedFilm = action.payload;
@@ -63,6 +85,22 @@ export const appDataSlice = createSlice({
       if (filmToUpdate) {
         filmToUpdate.isFavorite = updatedFilm.isFavorite;
       }
+      state.isDataPosting = false;
+    },
+    [postMyListData.pending.type]: (state) => {
+      state.isDataPosting = true;
+    },
+    [postMyListData.rejected.type]: (state) => {
+      state.isDataPosting = false;
+    },
+    [postCommentData.fulfilled.type]: (state) => {
+      state.isDataPosting = false;
+    },
+    [postCommentData.rejected.type]: (state) => {
+      state.isDataPosting = false;
+    },
+    [postCommentData.pending.type]: (state) => {
+      state.isDataPosting = true;
     },
   },
 });

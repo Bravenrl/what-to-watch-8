@@ -22,10 +22,13 @@ export const appProcessSlice = createSlice({
     toggleFilmInList: (state, action: PayloadAction<boolean | null>) => {
       state.isFilmInList = action.payload;
     },
+    resetMovieInfo: (state) => {
+      state.movieInfo = FilmInfo.Overview;
+    },
   },
 });
 
-export const {setGenre, setMovieInfo, toggleFilmInList} = appProcessSlice.actions;
+export const {setGenre, setMovieInfo, toggleFilmInList, resetMovieInfo} = appProcessSlice.actions;
 
 export default appProcessSlice.reducer;
 

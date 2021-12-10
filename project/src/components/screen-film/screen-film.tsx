@@ -7,10 +7,10 @@ import Navigate from '../navigate/navigate';
 import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
-import { fakeComments } from '../../mock/fake-data';
 import MovieInfo from '../movie-info/movie-info';
 import { useSelector } from 'react-redux';
 import {
+  getCurrentComments,
   getCurrentFilm,
   getSimilarFilms
 } from '../../store/app-data/selectors-app-data';
@@ -19,12 +19,16 @@ import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchFilmScreenData } from '../../store/api-actions';
 import { useParams } from 'react-router-dom';
+import {
+  resetMovieInfo
+} from '../../store/app-process/slice-app-process';
 
 function ScreenFilm(): JSX.Element {
-  const {id: pathId} = useParams();
+  const { id: pathId } = useParams();
   const dispatch = useAppDispatch();
   const films = useSelector(getSimilarFilms);
   const film = useSelector(getCurrentFilm);
+  const comments = useSelector(getCurrentComments);
   const {
     id,
     name,
@@ -36,7 +40,10 @@ function ScreenFilm(): JSX.Element {
   } = film;
 
   useEffect(() => {
-    dispatch(fetchFilmScreenData(pathId||''));
+    dispatch(fetchFilmScreenData(pathId || ''));
+    return () => {
+      dispatch(resetMovieInfo());
+    };
   }, [pathId, dispatch]);
 
   if (!id) {
@@ -74,7 +81,7 @@ function ScreenFilm(): JSX.Element {
             />
             <FilmDesc>
               <Navigate />
-              <MovieInfo film={film} comments={fakeComments} />
+              <MovieInfo film={film} comments={comments} />
             </FilmDesc>
           </div>
         </div>
