@@ -17,9 +17,13 @@ import {
   AuthData,
   FilmScreenData,
   MainScreenData,
-  MyListScreenData
+  MyListScreenData,
+  VideoScreenData
 } from '../types/thunk-actions';
-import { setMovieInfo, toggleFilmInList } from './app-process/slice-app-process';
+import {
+  setMovieInfo,
+  toggleFilmInList
+} from './app-process/slice-app-process';
 
 export const fetchMainScreenData = createAsyncThunk<
   MainScreenData,
@@ -31,30 +35,49 @@ export const fetchMainScreenData = createAsyncThunk<
     api.get<ServerFilm>(ApiRoute.Promo),
   ]);
   const allFilms = filmsResponse.data.map(adaptFilmtoClient);
-  const promoFilm = adaptFilmtoClient(promoResponse.data);
-  dispatch(toggleFilmInList(promoFilm.isFavorite));
-  return { allFilms, promoFilm };
+  const currentFilm = adaptFilmtoClient(promoResponse.data);
+  dispatch(toggleFilmInList(currentFilm.isFavorite));
+  return { allFilms, currentFilm };
 });
 
 export const fetchFilmScreenData = createAsyncThunk<
   FilmScreenData,
   string,
   AsyncThunkConfig
->(AsyncThunk.FetchFilmScreenData, async (id, { dispatch, extra: api }) => {
-  const [
-    { data: similarData },
-    { data: currentData },
-    { data: currentComments },
-  ] = await axios.all<AxiosResponse>([
-    api.get<ServerFilm[]>(`${ApiRoute.Films}/${id}${ApiRoute.Similar}`),
-    api.get<ServerFilm>(`${ApiRoute.Films}/${id}`),
-    api.get<CommentGet[]>(`${ApiRoute.Comments}/${id}`),
-  ]);
-  const similarFilms = similarData.map(adaptFilmtoClient);
-  const currentFilm = adaptFilmtoClient(currentData);
-  dispatch(toggleFilmInList(currentFilm.isFavorite));
-  return { similarFilms, currentFilm, currentComments };
+>(AsyncThunk.FetchFilmScreenData, async (id, { dispatch, rejectWithValue, extra: api }) => {
+  try {
+    const [
+      { data: similarData },
+      { data: currentData },
+      { data: currentComments },
+    ] = await axios.all<AxiosResponse>([
+      api.get<ServerFilm[]>(`${ApiRoute.Films}/${id}${ApiRoute.Similar}`),
+      api.get<ServerFilm>(`${ApiRoute.Films}/${id}`),
+      api.get<CommentGet[]>(`${ApiRoute.Comments}/${id}`),
+    ]);
+    const allFilms = similarData.map(adaptFilmtoClient);
+    const currentFilm = adaptFilmtoClient(currentData);
+    dispatch(toggleFilmInList(currentFilm.isFavorite));
+    return { allFilms, currentFilm, currentComments };
+  } catch {
+    return rejectWithValue(HttpCode.NotFound);
+  }
 });
+
+export const fetchVideoScreenData = createAsyncThunk<
+  VideoScreenData,
+  string,
+  AsyncThunkConfig
+>(AsyncThunk.FetchVideoScreenData, async (id, {rejectWithValue, extra: api }) => {
+  try {
+    const {data} = await api.get<ServerFilm>(`${ApiRoute.Films}/${id}`);
+    const currentFilm = adaptFilmtoClient(data);
+    return {currentFilm};
+  } catch {
+    return rejectWithValue(HttpCode.NotFound);
+  }
+});
+
 
 export const fetchMyListScreenData = createAsyncThunk<
   MyListScreenData,
@@ -121,15 +144,16 @@ export const postMyListData = createAsyncThunk<
 
 export const postCommentData = createAsyncThunk<
   CommentGet[],
-  { id: string,
-    comment: CommentPost,
-  },
+  { id: string; comment: CommentPost },
   AsyncThunkConfig
->(AsyncThunk.PostCommentData, async ({ id, comment }, {dispatch, extra: api }) => {
-  const { data: currentComments } = await api.post<CommentGet[]>(
-    `${ApiRoute.Comments}/${id}`,
-    comment,
-  );
-  dispatch(setMovieInfo(FilmInfo.Reviews));
-  return currentComments;
-});
+>(
+  AsyncThunk.PostCommentData,
+  async ({ id, comment }, { dispatch, extra: api }) => {
+    const { data: currentComments } = await api.post<CommentGet[]>(
+      `${ApiRoute.Comments}/${id}`,
+      comment,
+    );
+    dispatch(setMovieInfo(FilmInfo.Reviews));
+    return currentComments;
+  },
+);

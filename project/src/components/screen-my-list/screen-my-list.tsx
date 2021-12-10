@@ -4,7 +4,7 @@ import { HeaderTitle, ScreenType } from '../../const';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchMyListScreenData } from '../../store/api-actions';
 import { getMyListFilms } from '../../store/app-data/selectors-app-data';
-import { resetMyListFilms } from '../../store/app-data/slice-app-data';
+import { resetMyListData } from '../../store/app-data/slice-app-data';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Footer from '../footer/footer';
 import Header from '../header/header';
@@ -16,7 +16,7 @@ function ScreenMyList(): JSX.Element {
   useEffect(() => {
     dispatch(fetchMyListScreenData());
     return () => {
-      dispatch(resetMyListFilms());
+      dispatch(resetMyListData());
     };
   }, [dispatch]);
 

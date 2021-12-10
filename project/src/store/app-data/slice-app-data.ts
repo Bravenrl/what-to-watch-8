@@ -4,19 +4,19 @@ import { Film } from '../../types/data';
 import { AppData } from '../../types/state';
 import { FilmScreenData,
   MainScreenData,
-  MyListScreenData } from '../../types/thunk-actions';
+  MyListScreenData,
+  VideoScreenData} from '../../types/thunk-actions';
 import { fetchFilmScreenData,
   fetchMainScreenData,
   fetchMyListScreenData,
+  fetchVideoScreenData,
   postCommentData,
   postMyListData} from '../api-actions';
 
 const initialState: AppData = {
-  promoFilm: {} as Film,
   allFilms: [],
   currentFilm: {} as Film,
   currentComments: [],
-  similarFilms: [],
   myListFilms: [],
   isDataLoading: false,
   isDataPosting: false,
@@ -26,22 +26,19 @@ export const appDataSlice = createSlice({
   name: Slice.Data,
   initialState,
   reducers: {
-    resetPromoFilm: (state) => {
-      state.promoFilm = {} as Film;
-    },
-    resetCurrentFilm: (state) => {
-      state.similarFilms = [];
+    resetScreenData: (state) => {
+      state.allFilms = [];
       state.currentComments = [];
       state.currentFilm = {} as Film;
     },
-    resetMyListFilms: (state) => {
+    resetMyListData: (state) => {
       state.myListFilms = [];
     },
   },
   extraReducers: {
     [fetchMainScreenData.fulfilled.type]: (state, action: PayloadAction<MainScreenData>) => {
       state.allFilms = action.payload.allFilms;
-      state.promoFilm = action.payload.promoFilm;
+      state.currentFilm = action.payload.currentFilm;
       state.isDataLoading = false;
     },
     [fetchMainScreenData.pending.type]: (state) => {
@@ -51,7 +48,7 @@ export const appDataSlice = createSlice({
       state.isDataLoading = false;
     },
     [fetchFilmScreenData.fulfilled.type]: (state, action: PayloadAction<FilmScreenData>) => {
-      state.similarFilms = action.payload.similarFilms;
+      state.allFilms = action.payload.allFilms;
       state.currentFilm = action.payload.currentFilm;
       state.currentComments = action.payload.currentComments;
       state.isDataLoading = false;
@@ -90,13 +87,22 @@ export const appDataSlice = createSlice({
     [postCommentData.pending.type]: (state) => {
       state.isDataPosting = true;
     },
+    [fetchVideoScreenData.fulfilled.type]: (state, action: PayloadAction<VideoScreenData>) => {
+      state.currentFilm = action.payload.currentFilm;
+      state.isDataLoading = false;
+    },
+    [fetchVideoScreenData.pending.type]: (state) => {
+      state.isDataLoading = true;
+    },
+    [fetchVideoScreenData.rejected.type]: (state) => {
+      state.isDataLoading = false;
+    },
   },
 });
 
 export const {
-  resetCurrentFilm,
-  resetMyListFilms,
-  resetPromoFilm,
+  resetScreenData,
+  resetMyListData,
 } = appDataSlice.actions;
 
 export default appDataSlice.reducer;

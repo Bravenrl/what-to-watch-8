@@ -1,7 +1,9 @@
+import { Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import AuthorizedRoute from '../../hoc/authorized-route/authorized-route';
 import RequireAuthRoute from '../../hoc/require-auth-route/require-auth-route';
+import Preloader from '../preloader/preloader';
 import ScreenAddReview from '../screen-add-review/screen-add-review';
 import ScreenFilm from '../screen-film/screen-film';
 import ScreenMain from '../screen-main/screen-main';
@@ -13,8 +15,22 @@ import ScreenSignIn from '../screen-sign-in/screen-sign-in';
 function App(): JSX.Element {
   return (
     <Routes>
-      <Route path={AppRoute.Root} element={<ScreenMain />} />
-      <Route path={AppRoute.Film} element={<ScreenFilm />} />
+      <Route
+        path={AppRoute.Root}
+        element={
+          <Suspense fallback={<Preloader />}>
+            <ScreenMain />
+          </Suspense>
+        }
+      />
+      <Route
+        path={AppRoute.Film}
+        element={
+          <Suspense fallback={<Preloader />}>
+            <ScreenFilm />
+          </Suspense>
+        }
+      />
       <Route
         path={AppRoute.MyList}
         element={

@@ -4,11 +4,7 @@ import { State } from '../../types/state';
 
 export const getAllFilms = (state:State): Film[] => state[Reducer.Data].allFilms;
 
-export const getPromoFilm = (state:State): Film => state[Reducer.Data].promoFilm;
-
 export const getCurrentFilm = (state:State): Film => state[Reducer.Data].currentFilm;
-
-export const getSimilarFilms = (state:State): Film[] => state[Reducer.Data].similarFilms;
 
 export const getMyListFilms = (state:State): Film[] => state[Reducer.Data].myListFilms;
 

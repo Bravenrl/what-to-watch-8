@@ -4,11 +4,9 @@ import { RootState } from '../store/root-reducer';
 import { CommentGet, Film } from './data';
 
 export type AppData = {
-  promoFilm: Film;
   currentFilm: Film;
   currentComments: CommentGet[];
   allFilms: Film[];
-  similarFilms: Film[];
   myListFilms: Film[];
   isDataLoading: boolean;
   isDataPosting: boolean;

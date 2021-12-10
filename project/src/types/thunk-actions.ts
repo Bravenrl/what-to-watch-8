@@ -1,5 +1,4 @@
 import { AxiosInstance } from 'axios';
-import { HttpCode } from '../services/const';
 import { RootState } from '../store/root-reducer';
 import { AppDispatch } from '../store/store';
 import { CommentGet, Film } from './data';
@@ -8,6 +7,7 @@ export enum AsyncThunk {
   FetchMainScreenData = 'data/fetchMainScreenData',
   FetchFilmScreenData = 'data/fetchFilmScreenData',
   FetchMyListScreenData = 'data/fetchMyListScreenData',
+  FetchVideoScreenData = 'data/fetchVideoScreenData',
   CheckAuthStatus = 'user/checkAuthStatus',
   LoginAction = 'user/loginAction',
   LogoutAction = 'user/logoutAction',
@@ -25,17 +25,19 @@ export type AsyncThunkConfig = {
 
 export type MainScreenData = {
   allFilms: Film[];
-  promoFilm: Film;
+  currentFilm: Film;
 };
 
-export type FilmScreenData = {
-  similarFilms: Film[];
-  currentFilm: Film;
+export type FilmScreenData = MainScreenData&{
   currentComments: CommentGet[];
 }
 
 export type MyListScreenData = {
   myListFilms: Film[];
+}
+
+export type VideoScreenData = {
+  currentFilm: Film;
 }
 
 export type AuthData = {

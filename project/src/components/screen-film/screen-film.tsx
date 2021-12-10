@@ -4,29 +4,29 @@ import FilmDesc from '../film-desc/film-desc';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Navigate from '../navigate/navigate';
-import { PosterParams, ScreenType } from '../../const';
+import { AppRoute, PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
 import MovieInfo from '../movie-info/movie-info';
 import { useSelector } from 'react-redux';
 import {
+  getAllFilms,
   getCurrentComments,
-  getCurrentFilm,
-  getSimilarFilms
+  getCurrentFilm
 } from '../../store/app-data/selectors-app-data';
-import Preloader from '../preloader/preloader';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchFilmScreenData } from '../../store/api-actions';
-import { useParams } from 'react-router-dom';
-import {
-  resetMovieInfo
-} from '../../store/app-process/slice-app-process';
+import { useNavigate, useParams } from 'react-router-dom';
+import { resetMovieInfo } from '../../store/app-process/slice-app-process';
+import { unwrapResult } from '@reduxjs/toolkit';
+import { resetScreenData } from '../../store/app-data/slice-app-data';
 
-function ScreenFilm(): JSX.Element {
+function ScreenFilm(): JSX.Element | null {
+  const navigate = useNavigate();
   const { id: pathId } = useParams();
   const dispatch = useAppDispatch();
-  const films = useSelector(getSimilarFilms);
+  const films = useSelector(getAllFilms);
   const film = useSelector(getCurrentFilm);
   const comments = useSelector(getCurrentComments);
   const {
@@ -40,16 +40,18 @@ function ScreenFilm(): JSX.Element {
   } = film;
 
   useEffect(() => {
-    dispatch(fetchFilmScreenData(pathId || ''));
+    dispatch(fetchFilmScreenData(pathId || ''))
+      .then(unwrapResult)
+      .catch(() => navigate(AppRoute.NotFound));
     return () => {
       dispatch(resetMovieInfo());
+      dispatch(resetScreenData());
     };
-  }, [pathId, dispatch]);
+  }, [pathId, dispatch, navigate]);
 
   if (!id) {
-    return <Preloader />;
+    return null;
   }
-
   return (
     <>
       <section
