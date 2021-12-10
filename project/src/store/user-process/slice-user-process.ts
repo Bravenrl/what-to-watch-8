@@ -29,10 +29,7 @@ export const userProcessSlice = createSlice({
       state.authStatus = AuthStatus.Auth;
       state.avatarUrl = action.payload.avatarUrl;
     },
-    [loginAction.fulfilled.type]: (
-      state,
-      action: PayloadAction<AuthData>,
-    ) => {
+    [loginAction.fulfilled.type]: (state, action: PayloadAction<AuthData>) => {
       state.authStatus = AuthStatus.Auth;
       state.avatarUrl = action.payload.avatarUrl;
     },

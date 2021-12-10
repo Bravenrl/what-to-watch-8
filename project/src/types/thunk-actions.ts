@@ -19,7 +19,7 @@ export type AsyncThunkConfig = {
   _State: RootState;
   Dispatch: AppDispatch;
   extra: AxiosInstance;
-  rejectValue: HttpCode;
+  rejectValue: number;
 }
 
 

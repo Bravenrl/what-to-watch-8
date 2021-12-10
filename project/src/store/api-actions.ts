@@ -1,8 +1,7 @@
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import axios, { AxiosResponse } from 'axios';
-import { toast } from 'react-toastify';
 import { adaptAuthInfoToClient, adaptFilmtoClient } from '../services/adapter';
-import { ApiRoute, HttpCode, ToastMessage } from '../services/const';
+import { ApiRoute, HttpCode } from '../services/const';
 import { removeToken, setToken } from '../services/token';
 import {
   CommentGet,
@@ -77,7 +76,6 @@ export const checkAuthStatus = createAsyncThunk<
     setToken(token);
     return { avatarUrl };
   } catch (err) {
-    toast.info(ToastMessage.Unauthorized);
     return rejectWithValue(HttpCode.Unauthorised);
   }
 });
@@ -86,20 +84,16 @@ export const loginAction = createAsyncThunk<
   AuthData,
   UserAuthData,
   AsyncThunkConfig
->(
-  AsyncThunk.LoginAction,
-  async (userData, { rejectWithValue, extra: api }) => {
-    try {
-      const { data } = await api.post<ServerAuthInfo>(ApiRoute.Login, userData);
-      const { avatarUrl, token } = adaptAuthInfoToClient(data);
-      setToken(token);
-      return { avatarUrl };
-    } catch (err) {
-      toast.error(ToastMessage.BadRequest);
-      return rejectWithValue(HttpCode.BadRequest);
-    }
-  },
-);
+>(AsyncThunk.LoginAction, async (userData, { rejectWithValue, extra: api }) => {
+  try {
+    const {data} = await api.post<ServerAuthInfo>(ApiRoute.Login, userData);
+    const { avatarUrl, token } = adaptAuthInfoToClient(data);
+    setToken(token);
+    return { avatarUrl };
+  } catch (err) {
+    return rejectWithValue(HttpCode.BadRequest);
+  }
+});
 
 export const logoutAction = createAsyncThunk<void, undefined, AsyncThunkConfig>(
   AsyncThunk.LogoutAction,
@@ -111,20 +105,27 @@ export const logoutAction = createAsyncThunk<void, undefined, AsyncThunkConfig>(
 
 export const postMyListData = createAsyncThunk<
   Film,
-  {id: number, status: number},
+  { id: number; status: number },
   AsyncThunkConfig
->(AsyncThunk.PostMyListData, async ({id, status}, { dispatch, extra: api }) => {
-  const { data } = await api.post<ServerFilm>(`${ApiRoute.Favorite}/${id}/${status}`);
-  const film = adaptFilmtoClient(data);
-  dispatch(toggleFilmInList(film.isFavorite));
-  return film;
-});
+>(
+  AsyncThunk.PostMyListData,
+  async ({ id, status }, { dispatch, extra: api }) => {
+    const { data } = await api.post<ServerFilm>(
+      `${ApiRoute.Favorite}/${id}/${status}`,
+    );
+    const film = adaptFilmtoClient(data);
+    dispatch(toggleFilmInList(film.isFavorite));
+    return film;
+  },
+);
 
 export const postCommentData = createAsyncThunk<
   CommentGet[],
-  {id: number },
+  { id: number },
   AsyncThunkConfig
->(AsyncThunk.PostCommentData, async ({id}, { extra: api }) => {
-  const { data: currentComments } = await api.post<CommentGet[]>(`${ApiRoute.Comments}/${id}`);
+>(AsyncThunk.PostCommentData, async ({ id }, { extra: api }) => {
+  const { data: currentComments } = await api.post<CommentGet[]>(
+    `${ApiRoute.Comments}/${id}`,
+  );
   return currentComments;
 });

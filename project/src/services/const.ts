@@ -23,4 +23,10 @@ export enum ToastMessage {
   Unauthorized = 'Don\'t forget to log in',
   BadRequest = 'Check the entered data',
   NotFound = 'No data found',
+  NetworkError = 'NetworkError',
+}
+
+export enum RequestStatus {
+  Fulfilled = 'fulfilled',
+  Rejected = 'rejected',
 }

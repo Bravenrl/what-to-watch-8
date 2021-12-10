@@ -4,14 +4,19 @@ import Header from '../header/header';
 import { useForm, SubmitHandler } from 'react-hook-form';
 import { UserAuthData } from '../../types/data';
 import classNames from 'classnames';
+import { useAppDispatch } from '../../hooks/use-app-dispatch';
+import { loginAction } from '../../store/api-actions';
 function ScreenSignIn(): JSX.Element {
+  const dispatch = useAppDispatch();
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<UserAuthData>({ mode: 'onSubmit', reValidateMode: 'onSubmit' });
-  // eslint-disable-next-line no-console
-  const onSubmit: SubmitHandler<UserAuthData> = (data) => console.log(data);
+
+  const onSubmit: SubmitHandler<UserAuthData> = (data) => {
+    dispatch(loginAction(data));
+  };
   return (
     <div className='user-page'>
       <Header screenType={ScreenType.SignIn}>
@@ -89,7 +94,7 @@ function ScreenSignIn(): JSX.Element {
             </div>
           </div>
           <div className='sign-in__submit'>
-            <button className='sign-in__btn' type='submit'>
+            <button className='sign-in__btn' type='submit' disabled = {isSubmitting}>
               Sign in
             </button>
           </div>
