@@ -15,7 +15,6 @@ export type AppData = {
 };
 
 export type AppProcess = {
-  genre: string;
   movieInfo: string;
   isFilmInList: boolean | null;
 };

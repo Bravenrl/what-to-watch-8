@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { generatePath, Link, useNavigate } from 'react-router-dom';
 import { AppRoute, PreviewSize, TIMEOUT_TIME } from '../../const';
 
@@ -23,10 +23,20 @@ function FilmCardSmall({
   const navigate = useNavigate();
   const path = generatePath(AppRoute.Film, { id: id.toString() });
 
+  useEffect(
+    () => () => {
+      if (timeout.current !== null) {
+        clearTimeout(timeout.current);
+      }
+    },
+    [timeout]);
+
   return (
     <article
       className='small-film-card catalog__films-card'
-      onClick={() => navigate(path)}
+      onClick={() => {
+        navigate(path);
+      }}
       onMouseEnter={() => {
         timeout.current = setTimeout(() => {
           setIsPlaying(true);

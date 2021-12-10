@@ -1,10 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ALL_GENRES, FilmInfo, Slice } from '../../const';
+import { FilmInfo, Slice } from '../../const';
 import { AppProcess } from '../../types/state';
 
 
 const initialState: AppProcess = {
-  genre: ALL_GENRES,
   movieInfo: FilmInfo.Overview,
   isFilmInList: null,
 };
@@ -13,9 +12,6 @@ export const appProcessSlice = createSlice({
   name: Slice.App,
   initialState,
   reducers: {
-    setGenre: (state, action: PayloadAction<string>) => {
-      state.genre = action.payload;
-    },
     setMovieInfo: (state, action: PayloadAction<string>) => {
       state.movieInfo = action.payload;
     },
@@ -28,7 +24,7 @@ export const appProcessSlice = createSlice({
   },
 });
 
-export const {setGenre, setMovieInfo, toggleFilmInList, resetMovieInfo} = appProcessSlice.actions;
+export const {setMovieInfo, toggleFilmInList, resetMovieInfo} = appProcessSlice.actions;
 
 export default appProcessSlice.reducer;
 

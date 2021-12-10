@@ -2,6 +2,7 @@ import classNames from 'classnames';
 import { useState } from 'react';
 import { useMatch } from 'react-router-dom';
 import { AppRoute, INITIAL_FILM_COUNTER } from '../../const';
+import useFilter from '../../hooks/use-filter';
 import { realFilms } from '../../mock/srever-data';
 import { Film } from '../../types/data';
 import FilmCardSmall from '../film-card-small/film-card-small';
@@ -15,13 +16,13 @@ type FilmCatalogProps = {
 function FilmCatalog({films}: FilmCatalogProps): JSX.Element {
   const isMainScreen = useMatch(AppRoute.Root);
   const isMovieScreen = useMatch(AppRoute.Film);
-
+  const filtredFilms = useFilter(films);
   const [filmCount, setFilmCount] = useState(
     films.length > INITIAL_FILM_COUNTER
       ? INITIAL_FILM_COUNTER
       : films.length);
 
-  const filmsToShow = (isMainScreen) ? films.slice(0, filmCount) : films;
+  const filmsToShow = (isMainScreen) ? filtredFilms.slice(0, filmCount) : filtredFilms;
 
   const handleButtonClick = () => {
     setFilmCount((prevCount) => prevCount + INITIAL_FILM_COUNTER);
