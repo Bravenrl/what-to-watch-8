@@ -8,7 +8,6 @@ import { resetMyListFilms } from '../../store/app-data/slice-app-data';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Footer from '../footer/footer';
 import Header from '../header/header';
-import Preloader from '../preloader/preloader';
 
 function ScreenMyList(): JSX.Element {
   const dispatch = useAppDispatch();
@@ -20,10 +19,6 @@ function ScreenMyList(): JSX.Element {
       dispatch(resetMyListFilms());
     };
   }, [dispatch]);
-
-  if (!films.length) {
-    return <Preloader />;
-  }
 
   return (
     <div className='user-page'>

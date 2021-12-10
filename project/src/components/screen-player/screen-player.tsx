@@ -1,21 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useSelector } from 'react-redux';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { AppRoute } from '../../const';
+import { useToggle } from '../../hooks/use-toggle';
+import { getAllFilms } from '../../store/app-data/selectors-app-data';
 import { Film } from '../../types/data';
 import { formatRunTimeForPlayer, isEscEvent, isSpaceEvent } from '../../utils';
+import Preloader from '../preloader/preloader';
 
-type ScreenPlayerProps = {
-  film: Film;
-};
 
-function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
-  const { name, posterImage, videoLink } = film;
-
+function ScreenPlayer(): JSX.Element {
   const navigate = useNavigate();
+  const {id} = useParams();
   const location = useLocation();
   const fromPage = location.state?.player?.pathname || AppRoute.Root;
-
-  const [isPlaying, setIsРlaying] = useState(true);
+  const { name, videoLink } = useSelector(getAllFilms).find((film)=>film.id===Number(id)) as Film;
+  const [isPlaying, toggleIsРlaying] = useToggle(true);
   const [isLoading, setIsLoading] = useState(true);
   const [toggler, setToggler] = useState(0);
   const [timeLeft, setTimeLeft] = useState(0);
@@ -31,7 +31,8 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
       return;
     }
     setToggler(
-      (videoRef.current.currentTime / videoRef.current.duration) * 100);
+      (videoRef.current.currentTime / videoRef.current.duration) * 100,
+    );
     setTimeLeft(videoRef.current.duration - videoRef.current.currentTime);
   };
 
@@ -50,12 +51,13 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
     }
     if (isSpaceEvent(evt)) {
       evt.preventDefault();
-      setIsРlaying((prevIsPlaying) => !prevIsPlaying);
+      toggleIsРlaying();
     }
   };
 
   const handleOnCliclProcess = (
-    evt: React.MouseEvent<HTMLProgressElement, MouseEvent>) => {
+    evt: React.MouseEvent<HTMLProgressElement, MouseEvent>,
+  ) => {
     if (barRef.current === null || videoRef.current === null) {
       return;
     }
@@ -100,13 +102,13 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
 
   return (
     <div className='player'>
+      {isLoading&&<Preloader/>}
       <video
         src={videoLink}
         ref={videoRef}
         className='player__video'
-        poster={posterImage}
         onTimeUpdate={handleOnCangeProgress}
-        onClick={() => setIsРlaying((prevIsPlaying) => !prevIsPlaying)}
+        onClick={() => toggleIsРlaying()}
       >
       </video>
       <button
@@ -143,7 +145,7 @@ function ScreenPlayer({ film }: ScreenPlayerProps): JSX.Element {
               type='button'
               disabled={isLoading}
               className='player__play'
-              onClick={() => setIsРlaying((prevIsPlaying) => !prevIsPlaying)}
+              onClick={() => toggleIsРlaying()}
             >
               <svg
                 viewBox={isPlaying ? '0 0 14 21' : '0 0 19 19'}

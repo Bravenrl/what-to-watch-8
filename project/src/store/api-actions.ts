@@ -7,7 +7,6 @@ import { removeToken, setToken } from '../services/token';
 import {
   CommentGet,
   CommentPost,
-  Film,
   ServerAuthInfo,
   ServerFilm,
   UserAuthData
@@ -102,7 +101,7 @@ export const logoutAction = createAsyncThunk<void, undefined, AsyncThunkConfig>(
 );
 
 export const postMyListData = createAsyncThunk<
-  Film,
+  void,
   { id: number; status: number },
   AsyncThunkConfig
 >(
@@ -114,7 +113,6 @@ export const postMyListData = createAsyncThunk<
       );
       const film = adaptFilmtoClient(data);
       dispatch(toggleFilmInList(film.isFavorite));
-      return film;
     } catch (err) {
       return rejectWithValue(err as number);
     }

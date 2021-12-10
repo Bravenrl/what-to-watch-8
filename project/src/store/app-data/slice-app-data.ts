@@ -72,19 +72,7 @@ export const appDataSlice = createSlice({
     [fetchMyListScreenData.rejected.type]: (state) => {
       state.isDataLoading = false;
     },
-    [postMyListData.fulfilled.type]: (state, action: PayloadAction<Film>) => {
-      const updatedFilm = action.payload;
-      const filmToUpdate = state.allFilms.find(
-        (film) => film.id === updatedFilm.id,
-      );
-      if (state.myListFilms.length > 0) {
-        state.myListFilms = state.myListFilms.filter(
-          (film) => film.id !== updatedFilm.id,
-        );
-      }
-      if (filmToUpdate) {
-        filmToUpdate.isFavorite = updatedFilm.isFavorite;
-      }
+    [postMyListData.fulfilled.type]: (state) => {
       state.isDataPosting = false;
     },
     [postMyListData.pending.type]: (state) => {
