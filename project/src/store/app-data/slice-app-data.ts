@@ -17,7 +17,6 @@ const initialState: AppData = {
   allFilms: [],
   currentFilm: {} as Film,
   currentComments: [],
-  myListFilms: [],
   isDataLoading: false,
   isDataPosting: false,
 };
@@ -30,9 +29,6 @@ export const appDataSlice = createSlice({
       state.allFilms = [];
       state.currentComments = [];
       state.currentFilm = {} as Film;
-    },
-    resetMyListData: (state) => {
-      state.myListFilms = [];
     },
   },
   extraReducers: {
@@ -60,7 +56,7 @@ export const appDataSlice = createSlice({
       state.isDataLoading = false;
     },
     [fetchMyListScreenData.fulfilled.type]: (state, action: PayloadAction<MyListScreenData>) => {
-      state.myListFilms = action.payload.myListFilms;
+      state.allFilms = action.payload.allFilms;
       state.isDataLoading = false;
     },
     [fetchMyListScreenData.pending.type]: (state) => {
@@ -102,7 +98,6 @@ export const appDataSlice = createSlice({
 
 export const {
   resetScreenData,
-  resetMyListData,
 } = appDataSlice.actions;
 
 export default appDataSlice.reducer;

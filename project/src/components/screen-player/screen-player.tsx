@@ -1,20 +1,21 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import {
+  Navigate,
+  useLocation,
+  useNavigate
+} from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useToggle } from '../../hooks/use-toggle';
-import { getAllFilms } from '../../store/app-data/selectors-app-data';
-import { Film } from '../../types/data';
+import { getCurrentFilm } from '../../store/app-data/selectors-app-data';
 import { formatRunTimeForPlayer, isEscEvent, isSpaceEvent } from '../../utils';
 import Preloader from '../preloader/preloader';
 
-
-function ScreenPlayer(): JSX.Element {
+function ScreenPlayer(): JSX.Element | null {
   const navigate = useNavigate();
-  const {id} = useParams();
   const location = useLocation();
   const fromPage = location.state?.player?.pathname || AppRoute.Root;
-  const { name, videoLink } = useSelector(getAllFilms).find((film)=>film.id===Number(id)) as Film;
+  const { name, videoLink } = useSelector(getCurrentFilm);
   const [isPlaying, toggleIsРlaying] = useToggle(true);
   const [isLoading, setIsLoading] = useState(true);
   const [toggler, setToggler] = useState(0);
@@ -98,11 +99,15 @@ function ScreenPlayer(): JSX.Element {
       return;
     }
     videoRef.current.pause();
-  }, [isPlaying]);
+  }, [isPlaying, name]);
+
+  if (!name) {
+    return <Navigate to={AppRoute.NotFound} />;
+  }
 
   return (
     <div className='player'>
-      {isLoading&&<Preloader/>}
+      {isLoading && <Preloader />}
       <video
         src={videoLink}
         ref={videoRef}
@@ -157,7 +162,7 @@ function ScreenPlayer(): JSX.Element {
               <span>{isPlaying ? 'Pause' : 'Play'}</span>
             </button>
           }
-          <div className='player__name'>{isLoading ? 'load' : name}</div>
+          <div className='player__name'>{isLoading ? 'Loading...' : name}</div>
 
           <button
             type='button'

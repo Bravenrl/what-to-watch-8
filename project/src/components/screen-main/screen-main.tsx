@@ -3,37 +3,25 @@ import FilmCard from '../film-card/film-card';
 import FilmDesc from '../film-desc/film-desc';
 import Footer from '../footer/footer';
 import Header from '../header/header';
-import { AppRoute, PosterParams, ScreenType } from '../../const';
+import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
 import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import {
-  getAllFilms,
   getCurrentFilm
 } from '../../store/app-data/selectors-app-data';
 import { fetchMainScreenData } from '../../store/api-actions';
-import { useNavigate } from 'react-router-dom';
-import { unwrapResult } from '@reduxjs/toolkit';
-import { resetScreenData } from '../../store/app-data/slice-app-data';
 
 function ScreenMain(): JSX.Element | null {
   const dispatch = useAppDispatch();
-  const navigate = useNavigate();
   const { id, name, genre, released, posterImage, backgroundImage } =
     useSelector(getCurrentFilm);
 
-  const films = useSelector(getAllFilms);
-
   useEffect(() => {
-    dispatch(fetchMainScreenData())
-      .then(unwrapResult)
-      .catch(() => navigate(AppRoute.NotFound));
-    return () => {
-      dispatch(resetScreenData());
-    };
-  }, [dispatch, navigate]);
+    dispatch(fetchMainScreenData());
+  }, [dispatch]);
 
   if (!id) {
     return null;
@@ -64,7 +52,7 @@ function ScreenMain(): JSX.Element | null {
       </section>
 
       <div className='page-content'>
-        <FilmCatalog films={films} />
+        <FilmCatalog />
         <Footer />
       </div>
     </>

@@ -4,31 +4,31 @@ import FilmDesc from '../film-desc/film-desc';
 import Footer from '../footer/footer';
 import Header from '../header/header';
 import Navigate from '../navigate/navigate';
-import { AppRoute, PosterParams, ScreenType } from '../../const';
+import { PosterParams, ScreenType } from '../../const';
 import FilmCatalog from '../film-catalog/film-catalog';
 import Poster from '../poster/poster';
 import MovieInfo from '../movie-info/movie-info';
 import { useSelector } from 'react-redux';
 import {
-  getAllFilms,
   getCurrentComments,
-  getCurrentFilm
+  getCurrentFilm,
+  getIsDataLoading
 } from '../../store/app-data/selectors-app-data';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchFilmScreenData } from '../../store/api-actions';
 import { useNavigate, useParams } from 'react-router-dom';
 import { resetMovieInfo } from '../../store/app-process/slice-app-process';
-import { unwrapResult } from '@reduxjs/toolkit';
 import { resetScreenData } from '../../store/app-data/slice-app-data';
+import Preloader from '../preloader/preloader';
 
 function ScreenFilm(): JSX.Element | null {
   const navigate = useNavigate();
   const { id: pathId } = useParams();
   const dispatch = useAppDispatch();
-  const films = useSelector(getAllFilms);
   const film = useSelector(getCurrentFilm);
   const comments = useSelector(getCurrentComments);
+  const isLoading = useSelector(getIsDataLoading);
   const {
     id,
     name,
@@ -40,18 +40,12 @@ function ScreenFilm(): JSX.Element | null {
   } = film;
 
   useEffect(() => {
-    dispatch(fetchFilmScreenData(pathId || ''))
-      .then(unwrapResult)
-      .catch(() => navigate(AppRoute.NotFound));
+    dispatch(fetchFilmScreenData(pathId ?? ''));
     return () => {
       dispatch(resetMovieInfo());
-      dispatch(resetScreenData());
     };
   }, [pathId, dispatch, navigate]);
 
-  if (!id) {
-    return null;
-  }
   return (
     <>
       <section
@@ -89,7 +83,7 @@ function ScreenFilm(): JSX.Element | null {
         </div>
       </section>
       <div className='page-content'>
-        <FilmCatalog films={films} />
+        <FilmCatalog />
         <Footer />
       </div>
     </>

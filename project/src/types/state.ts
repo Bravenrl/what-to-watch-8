@@ -7,7 +7,6 @@ export type AppData = {
   currentFilm: Film;
   currentComments: CommentGet[];
   allFilms: Film[];
-  myListFilms: Film[];
   isDataLoading: boolean;
   isDataPosting: boolean;
 };

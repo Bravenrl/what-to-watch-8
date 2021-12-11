@@ -33,7 +33,7 @@ export type FilmScreenData = MainScreenData&{
 }
 
 export type MyListScreenData = {
-  myListFilms: Film[];
+  allFilms: Film[];
 }
 
 export type VideoScreenData = {

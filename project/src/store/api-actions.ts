@@ -85,8 +85,8 @@ export const fetchMyListScreenData = createAsyncThunk<
   AsyncThunkConfig
 >(AsyncThunk.FetchMyListScreenData, async (_, { extra: api }) => {
   const { data } = await api.get<ServerFilm[]>(ApiRoute.Favorite);
-  const myListFilms = data.map(adaptFilmtoClient);
-  return { myListFilms };
+  const allFilms = data.map(adaptFilmtoClient);
+  return { allFilms };
 });
 
 export const checkAuthStatus = createAsyncThunk<
