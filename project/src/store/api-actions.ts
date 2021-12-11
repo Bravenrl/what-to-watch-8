@@ -137,6 +137,7 @@ export const checkAuthStatus = createAsyncThunk<
     setToken(token);
     return { avatarUrl };
   } catch (err) {
+    createToast(err);
     return rejectWithValue(err);
   }
 });

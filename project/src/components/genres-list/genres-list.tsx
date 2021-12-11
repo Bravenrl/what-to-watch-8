@@ -2,13 +2,10 @@ import classNames from 'classnames';
 import { useSelector } from 'react-redux';
 import { useSearchParams } from 'react-router-dom';
 import { ALL_GENRES } from '../../const';
-import { getAllFilms } from '../../store/app-data/selectors-app-data';
-import { getGenres } from '../../utils';
-
+import { getCurrentGenres } from '../../store/app-data/selectors-app-data';
 
 function GenresList(): JSX.Element {
-  const allFilms = useSelector(getAllFilms);
-  const allGenres = getGenres(allFilms);
+  const allGenres = useSelector(getCurrentGenres);
   const [searchParams, setSearchParams] = useSearchParams();
   const genreInfo = searchParams.get('genre') || '';
   return (
