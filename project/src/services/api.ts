@@ -1,5 +1,4 @@
 import axios, {AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse } from 'axios';
-import { toast } from 'react-toastify';
 import { AuthStatus } from '../const';
 import { API_URL, HttpCode, REQEST_TIMEOUT } from './const';
 import { getToken } from './token';
@@ -33,7 +32,6 @@ export const createApi = (cb:UnauthorisedCb): AxiosInstance => {
       if(response?.status===HttpCode.Unauthorised) {
         cb();
       }
-      toast.info(err.response?.status);
       return Promise.reject(err.response?.status);
     },
   );

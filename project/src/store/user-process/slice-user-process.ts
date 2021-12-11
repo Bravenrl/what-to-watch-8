@@ -29,6 +29,9 @@ export const userProcessSlice = createSlice({
       state.authStatus = AuthStatus.Auth;
       state.avatarUrl = action.payload.avatarUrl;
     },
+    [checkAuthStatus.rejected.type]: (state) => {
+      state.authStatus = AuthStatus.NoAuth;
+    },
     [loginAction.fulfilled.type]: (state, action: PayloadAction<AuthData>) => {
       state.authStatus = AuthStatus.Auth;
       state.avatarUrl = action.payload.avatarUrl;
