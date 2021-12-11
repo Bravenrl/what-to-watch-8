@@ -1,5 +1,5 @@
 import dayjs from 'dayjs';
-import { RatingLevel } from './const';
+import { MAX_GENRES, RatingLevel } from './const';
 import duration from 'dayjs/plugin/duration';
 import LocalizedFormat from 'dayjs/plugin/localizedFormat';
 import { CommentGet, Film } from './types/data';
@@ -62,4 +62,4 @@ export const getGenres = (films: Film[]): string[] =>
     }
     genres.push(film.genre);
     return genres;
-  }, [] as string[]);
+  }, [] as string[]).slice(0, MAX_GENRES);

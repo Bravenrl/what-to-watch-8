@@ -1,4 +1,4 @@
-export const AUTH_STATUS = true;
+export const MAX_GENRES = 9;
 
 export enum Reducer {
   App = 'APP',
