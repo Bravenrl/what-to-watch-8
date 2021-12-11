@@ -19,16 +19,15 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchFilmScreenData } from '../../store/api-actions';
 import { useNavigate, useParams } from 'react-router-dom';
 import { resetMovieInfo } from '../../store/app-process/slice-app-process';
-import { resetScreenData } from '../../store/app-data/slice-app-data';
 import Preloader from '../preloader/preloader';
 
-function ScreenFilm(): JSX.Element | null {
+function ScreenFilm(): JSX.Element {
   const navigate = useNavigate();
   const { id: pathId } = useParams();
   const dispatch = useAppDispatch();
   const film = useSelector(getCurrentFilm);
+  const isLoading  = useSelector(getIsDataLoading);
   const comments = useSelector(getCurrentComments);
-  const isLoading = useSelector(getIsDataLoading);
   const {
     id,
     name,
@@ -45,6 +44,10 @@ function ScreenFilm(): JSX.Element | null {
       dispatch(resetMovieInfo());
     };
   }, [pathId, dispatch, navigate]);
+
+  if (!id || isLoading) {
+    return <Preloader/>;
+  }
 
   return (
     <>

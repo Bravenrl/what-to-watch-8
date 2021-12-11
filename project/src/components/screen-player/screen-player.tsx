@@ -11,10 +11,10 @@ import { getCurrentFilm } from '../../store/app-data/selectors-app-data';
 import { formatRunTimeForPlayer, isEscEvent, isSpaceEvent } from '../../utils';
 import Preloader from '../preloader/preloader';
 
-function ScreenPlayer(): JSX.Element | null {
+function ScreenPlayer(): JSX.Element {
   const navigate = useNavigate();
   const location = useLocation();
-  const fromPage = location.state?.player?.pathname || AppRoute.Root;
+  const fromPage = location.state?.player?.pathname ?? AppRoute.Root;
   const { name, videoLink } = useSelector(getCurrentFilm);
   const [isPlaying, toggleIsРlaying] = useToggle(true);
   const [isLoading, setIsLoading] = useState(true);

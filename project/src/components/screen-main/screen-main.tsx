@@ -10,21 +10,23 @@ import { useSelector } from 'react-redux';
 import { useEffect } from 'react';
 import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import {
-  getCurrentFilm
+  getCurrentFilm, getIsDataLoading
 } from '../../store/app-data/selectors-app-data';
 import { fetchMainScreenData } from '../../store/api-actions';
+import Preloader from '../preloader/preloader';
 
-function ScreenMain(): JSX.Element | null {
+function ScreenMain(): JSX.Element {
   const dispatch = useAppDispatch();
   const { id, name, genre, released, posterImage, backgroundImage } =
     useSelector(getCurrentFilm);
+  const isLoading = useSelector(getIsDataLoading);
 
   useEffect(() => {
     dispatch(fetchMainScreenData());
   }, [dispatch]);
 
-  if (!id) {
-    return null;
+  if (!id || isLoading) {
+    return <Preloader/>;
   }
 
   return (
