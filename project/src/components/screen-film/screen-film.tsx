@@ -18,6 +18,7 @@ import { useAppDispatch } from '../../hooks/use-app-dispatch';
 import { fetchFilmScreenData } from '../../store/api-actions';
 import { useNavigate, useParams } from 'react-router-dom';
 import Preloader from '../preloader/preloader';
+import { resetMovieInfo } from '../../store/app-process/slice-app-process';
 
 function ScreenFilm(): JSX.Element {
   const navigate = useNavigate();
@@ -37,6 +38,9 @@ function ScreenFilm(): JSX.Element {
 
   useEffect(() => {
     dispatch(fetchFilmScreenData(pathId ?? ''));
+    return ()=> {
+      dispatch(resetMovieInfo());
+    };
   }, [pathId, dispatch, navigate]);
 
   if (!id || isLoading) {
