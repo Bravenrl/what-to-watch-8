@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import {
+  generatePath,
   Navigate,
   useLocation,
-  useNavigate
+  useNavigate,
+  useParams
 } from 'react-router-dom';
 import { AppRoute } from '../../const';
 import { useToggle } from '../../hooks/use-toggle';
@@ -12,6 +14,7 @@ import { formatRunTimeForPlayer, isEscEvent, isSpaceEvent } from '../../utils';
 import Preloader from '../preloader/preloader';
 
 function ScreenPlayer(): JSX.Element {
+  const {id} = useParams();
   const navigate = useNavigate();
   const location = useLocation();
   const fromPage = location.state?.player?.pathname ?? AppRoute.Root;
@@ -23,6 +26,8 @@ function ScreenPlayer(): JSX.Element {
 
   const videoRef = useRef<HTMLVideoElement | null>(null);
   const barRef = useRef<HTMLProgressElement | null>(null);
+
+  const redirectPath = generatePath(AppRoute.Film, {id: id??''});
 
   const handleOnCangeProgress = () => {
     if (videoRef.current === null) {
@@ -102,7 +107,7 @@ function ScreenPlayer(): JSX.Element {
   }, [isPlaying, name]);
 
   if (!name) {
-    return <Navigate to={AppRoute.NotFound} />;
+    return <Navigate to={redirectPath} />;
   }
 
   return (

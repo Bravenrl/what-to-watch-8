@@ -1,8 +1,20 @@
 import { customAlphabet } from 'nanoid';
 import { name, internet, random, image, datatype, lorem, date } from 'faker';
 import { AuthInfo, CommentGet, Film } from '../types/data';
-import { GENRES } from '../const';
 const nanoid = customAlphabet('1234567890', 50);
+
+const GENRES: string[] = [
+  'Comedies',
+  'Crime',
+  'Documentary',
+  'Dramas',
+  'Horror',
+  'Kids & Family',
+  'Romance',
+  'Sci-Fi',
+  'Thrillers',
+];
+
 const LINKS = [
   {
     previewImage: 'https://8.react.pages.academy/static/film/preview/moonrise-kingdom.jpg',

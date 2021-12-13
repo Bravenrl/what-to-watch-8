@@ -3,7 +3,7 @@ import { createSelector } from '@reduxjs/toolkit';
 import { Reducer } from '../../const';
 import { CommentGet, Film } from '../../types/data';
 import { State } from '../../types/state';
-import { getGenres } from '../../utils';
+import { getGenres, getTwoArrSortByRating } from '../../utils';
 
 export const getAllFilms = (state:State): Film[] => state[Reducer.Data].allFilms;
 
@@ -19,3 +19,9 @@ export const getCurrentGenres = createSelector(
   getAllFilms,
   (allFilms) => getGenres(allFilms),
 );
+
+export const getTwoCommentCol = createSelector(
+  getCurrentComments,
+  (comments) => getTwoArrSortByRating(comments),
+);
+

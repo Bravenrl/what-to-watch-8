@@ -1,20 +1,15 @@
-import { CommentGet } from '../../types/data';
-import { getTwoArrSortByRating } from '../../utils';
+import { useSelector } from 'react-redux';
+import { getTwoCommentCol } from '../../store/app-data/selectors-app-data';
 import ReviewsCol from '../rewiews-col/reviews-col';
 
-type MovieReviewsProps = {
-  comments: CommentGet[],
-}
+function MovieReviews(): JSX.Element {
 
-function MovieReviews({comments}:MovieReviewsProps): JSX.Element {
-
-  const[leftCol, rightCol] = getTwoArrSortByRating(comments);
+  const[leftCol, rightCol] = useSelector(getTwoCommentCol);
   return (
     <div className="film-card__reviews film-card__row">
       <ReviewsCol comments = {leftCol} />
       <ReviewsCol comments={rightCol} />
     </div>
-
   );
 }
 

@@ -1,17 +1,16 @@
 import { useSelector } from 'react-redux';
 import { FilmInfo } from '../../const';
 import { getMovieInfo } from '../../store/app-process/selectors-app-process';
-import { CommentGet, Film } from '../../types/data';
+import { Film } from '../../types/data';
 import MovieDetails from '../movie-details/movie-details';
 import MovieOverview from '../movie-overview/movie-overview';
 import MovieReviews from '../movie-reviews/movie-reviews';
 
 type MovieInfoProps = {
   film: Film;
-  comments: CommentGet[];
 };
 
-function MovieInfo({ film, comments }: MovieInfoProps): JSX.Element {
+function MovieInfo({ film }: MovieInfoProps): JSX.Element {
   const {
     description,
     director,
@@ -36,7 +35,7 @@ function MovieInfo({ film, comments }: MovieInfoProps): JSX.Element {
         />
       );
     case FilmInfo.Reviews:
-      return <MovieReviews comments={comments} />;
+      return <MovieReviews />;
     default:
       return (
         <MovieOverview

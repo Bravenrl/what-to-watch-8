@@ -24,13 +24,7 @@ const initialState: AppData = {
 export const appDataSlice = createSlice({
   name: Slice.Data,
   initialState,
-  reducers: {
-    resetScreenData: (state) => {
-      state.allFilms = [];
-      state.currentComments = [];
-      state.currentFilm = {} as Film;
-    },
-  },
+  reducers: {},
   extraReducers: {
     [fetchMainScreenData.fulfilled.type]: (state, action: PayloadAction<MainScreenData>) => {
       state.allFilms = action.payload.allFilms;
@@ -95,9 +89,5 @@ export const appDataSlice = createSlice({
     },
   },
 });
-
-export const {
-  resetScreenData,
-} = appDataSlice.actions;
 
 export default appDataSlice.reducer;

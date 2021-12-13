@@ -64,18 +64,6 @@ export enum FilmInfo {
 
 export const ALL_GENRES = 'All genres';
 
-export const GENRES: string[] = [
-  'Comedies',
-  'Crime',
-  'Documentary',
-  'Dramas',
-  'Horror',
-  'Kids & Family',
-  'Romance',
-  'Sci-Fi',
-  'Thrillers',
-];
-
 export const RatingLevel = {
   Bad: {
     level: 'Bad',
