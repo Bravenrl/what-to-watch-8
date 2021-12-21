@@ -1,3 +1,5 @@
+[Deployment with Vercel](https://1781597-what-to-watch-8.vercel.app/).
+
 # Личный проект «Что посмотреть»
 
 # Техническое задание
