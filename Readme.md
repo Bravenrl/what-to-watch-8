@@ -1,5 +1,9 @@
 [Deployment with Vercel](https://1781597-what-to-watch-8.vercel.app/).
 
+This is React App with TS [Create React App](https://github.com/facebook/create-react-app). React Router v6, Redux Toolkit, React-hook-form in it. 
+App used custom hooks, HOC, middleware. 
+For every component, custom hooks and helpers created unit tests with jest & react-testing-library 
+
 # Личный проект «Что посмотреть»
 
 # Техническое задание
